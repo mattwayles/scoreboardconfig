@@ -6,155 +6,274 @@
     android:layout_height="match_parent"
     tools:context=".ConfigurationActivity">
 
-    <ImageView
-        android:id="@+id/logoView"
-        android:layout_width="105dp"
-        android:layout_height="96dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:contentDescription="@string/logo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/astlogo" />
-
-    <TextView
-        android:id="@+id/connectionView"
-        android:layout_width="141dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
-        android:gravity="center_horizontal"
-        android:text="@string/connected"
-        android:textSize="18sp"
-        app:fontFamily="@font/baloo_da"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/selectScoreboardTypeView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/select_scoreboard_type"
-        android:textColor="#000745"
-        android:textSize="18sp"
-        app:fontFamily="@font/baloo_da"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoView" />
-
-    <TextView
-        android:id="@+id/selectScoreboardTypeView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/select_team_names"
-        android:textColor="#000745"
-        android:textSize="18sp"
-        app:fontFamily="@font/baloo_da"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="150dp"
-        android:layout_height="74dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginLeft="56dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="186dp"
-        android:layout_marginRight="186dp"
-        android:checkedButton="@+id/standardRadio"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectScoreboardTypeView">
-
-        <RadioButton
-            android:id="@+id/standardRadio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/standard"
-            android:textSize="14sp" />
-
-        <RadioButton
-            android:id="@+id/switchRadio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/switch_sides" />
-
-    </RadioGroup>
-
-    <EditText
-        android:id="@+id/teamName1EditText"
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:autofillHints="no"
-        android:ems="10"
-        android:gravity="center_horizontal"
-        android:hint="@string/teamName"
-        android:inputType="textPersonName"
+        android:onClick="hideKeyboard"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectScoreboardTypeView2" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/vs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="163dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="163dp"
-        android:text="@string/vs"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.525"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/teamName1EditText" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:onClick="hideKeyboard"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/teamName2EditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:ems="10"
-        android:gravity="center_horizontal"
-        android:hint="@string/teamName"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vs" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/startMatchButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
-        android:layout_marginEnd="16dp"
-        android:background="#000745"
-        android:onClick="startMatch"
-        android:padding="10dp"
-        android:text="@string/new_match"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/teamName2EditText"
-        android:layout_marginRight="16dp" />
+                <ImageView
+                    android:id="@+id/logoView"
+                    android:layout_width="105dp"
+                    android:layout_height="96dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:contentDescription="@string/logo"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/astlogo" />
+
+                <TextView
+                    android:id="@+id/connectionView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="44dp"
+                    android:layout_marginEnd="28dp"
+                    android:layout_marginRight="0dp"
+                    android:gravity="end"
+                    android:text="@string/connected"
+                    android:textSize="18sp"
+                    app:fontFamily="@font/baloo_da"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/selectScoreboardTypeView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/select_scoreboard_type"
+                android:textColor="#000745"
+                android:textSize="18sp"
+                app:fontFamily="@font/baloo_da"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/logoView" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="150dp"
+                android:layout_height="74dp"
+                android:layout_marginStart="56dp"
+                android:layout_marginLeft="42dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="186dp"
+                android:layout_marginRight="186dp"
+                android:checkedButton="@+id/standardRadio"
+                app:layout_constraintTop_toBottomOf="@+id/selectScoreboardTypeView">
+
+                <RadioButton
+                    android:id="@+id/standardRadio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/standard"
+                    android:textSize="14sp" />
+
+                <RadioButton
+                    android:id="@+id/switchRadio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/switch_sides" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/setNumofGamesView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/set_game_num"
+                android:textColor="#000745"
+                android:textSize="18sp"
+                app:fontFamily="@font/baloo_da"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+            <EditText
+                android:id="@+id/numGamesEditText"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="56dp"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:inputType="number"
+                android:text="@string/three" />
+
+            <TextView
+                android:id="@+id/gameScoresView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/select_game_scores"
+                android:textColor="#000745"
+                android:textSize="18sp"
+                app:fontFamily="@font/baloo_da"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+            <LinearLayout
+                android:id="@+id/gameScoresLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/gameScoreEditText1"
+                    android:layout_width="126dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="56dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:foregroundGravity="left"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/game_score_1"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/gameScoreEditText2"
+                    android:layout_width="126dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="56dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:foregroundGravity="left"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/game_score_2"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/gameScoreEditText3"
+                    android:layout_width="126dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="56dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:foregroundGravity="left"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/game_score_3"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/selectTeamNamesView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/select_team_names"
+                android:textColor="#000745"
+                android:textSize="18sp"
+                app:fontFamily="@font/baloo_da"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+            <EditText
+                android:id="@+id/teamName1EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:autofillHints="no"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="@string/teamName"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/setNumofGamesView" />
+
+            <TextView
+                android:id="@+id/vs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="163dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="163dp"
+                android:gravity="center_horizontal"
+                android:text="@string/vs"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.525"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/teamName1EditText" />
+
+            <EditText
+                android:id="@+id/teamName2EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:autofillHints="no"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="@string/teamName"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/setNumofGamesView" />
+
+            <TextView
+                android:id="@+id/errorView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="end"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="18sp"
+                app:fontFamily="@font/baloo_da" />
+
+            <Button
+                android:id="@+id/startMatchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="25dp"
+                android:background="#000745"
+                android:gravity="start"
+                android:onClick="startMatch"
+                android:padding="10dp"
+                android:text="@string/new_match"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/teamName2EditText" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

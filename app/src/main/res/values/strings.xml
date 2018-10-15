@@ -19,4 +19,16 @@
     <string name="standard">Standard</string>
     <string name="switch_sides">Switch Sides</string>
     <string name="select_team_names">Select Team Names</string>
+    <string name="select_game_num">Select Number of Games</string>
+    <string name="select_game_scores">Set Game Win Scores</string>
+    <string name="set_game_num">Set Number of Games</string>
+    <string name="game_score_1">Game 1 Win Score</string>
+    <string name="game_score_2">Game 2 Win Score</string>
+    <string name="game_score_3">Game 3 Win Score</string>
+    <string name="three">3</string>
+    <string name="sent">Sent configuration information!</string>
+    <string name="emptyTeam1Name">Team Name 1 cannot be empty</string>
+    <string name="emptyTeam2Name">Team Name 2 cannot be empty</string>
+    <string name="emptyGameScore">All Game Win Scores must contain a value</string>
+    <string name="invalidNumGames">Number of Games must be between 1&#8211;9</string>
 </resources>
