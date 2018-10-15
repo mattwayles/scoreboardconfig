@@ -15,4 +15,8 @@
     <string name="new_match">New Match</string>
     <string name="logo">Logo</string>
     <string name="select_blueooth_device">Select Blueooth Device</string>
+    <string name="select_scoreboard_type">Select Scoreboard Type</string>
+    <string name="standard">Standard</string>
+    <string name="switch_sides">Switch Sides</string>
+    <string name="select_team_names">Select Team Names</string>
 </resources>

@@ -152,9 +152,8 @@ public class BluetoothFinderActivity extends AppCompatActivity {
     /**
      * Start the ConnectedThread to begin managing a Bluetooth connection
      * @param socket  The BluetoothSocket on which the connection was made
-     * @param device  The BluetoothDevice that has been connected
      */
-    public synchronized void connected(BluetoothSocket socket, BluetoothDevice device) {
+    public synchronized void connected(BluetoothSocket socket) {
         // Cancel the thread that completed the connection
         if (connectThread != null) {
             connectThread.cancel();
@@ -173,6 +172,10 @@ public class BluetoothFinderActivity extends AppCompatActivity {
 
         Intent intent = new Intent(getApplicationContext(), ConfigurationActivity.class);
         startActivity(intent);
+    }
+
+    public static void writeToServer(int data) {
+        connectedThread.write(data);
     }
 
     public static void writeToServer(String data) {
@@ -211,10 +214,8 @@ public class BluetoothFinderActivity extends AppCompatActivity {
      */
     private class ConnectThread extends Thread {
         private final BluetoothSocket mmSocket;
-        private final BluetoothDevice mmDevice;
 
         ConnectThread(BluetoothDevice device) {
-            mmDevice = device;
             BluetoothSocket tmp = null;
 
             // Get a BluetoothSocket for a connection with the
@@ -247,15 +248,13 @@ public class BluetoothFinderActivity extends AppCompatActivity {
                 } catch (IOException e2) {
                     Log.e("FAIL", "unable to close() socket during connection failure", e2);
                 }
-                // Start the service over to restart listening mode
-                //BluetoothCommandService.this.start();
             }
 
             // Reset the ConnectThread because we're done
             connectThread = null;
 
             // Start the connected thread
-            connected(mmSocket, mmDevice);
+            connected(mmSocket);
         }
 
         void cancel() {
@@ -311,8 +310,6 @@ public class BluetoothFinderActivity extends AppCompatActivity {
                             write(bytes);
                         }
                     });
-                    //mHandler.obtainMessage(RemoteBluetooth.MESSAGE_READ, bytes, -1, buffer)
-                      //      .sendToTarget();
                 } catch (IOException e) {
                     Log.e("DISCONNECTED", "disconnected", e);
                     connectionLost();
@@ -328,10 +325,6 @@ public class BluetoothFinderActivity extends AppCompatActivity {
         void write(byte[] buffer) {
             try {
                 mmOutStream.write(buffer);
-
-                // Share the sent message back to the UI Activity
-//                mHandler.obtainMessage(BluetoothChat.MESSAGE_WRITE, -1, -1, buffer)
-//                        .sendToTarget();
             } catch (IOException e) {
                 Log.e("WRITE FAIL", "Exception during write", e);
             }
@@ -340,10 +333,6 @@ public class BluetoothFinderActivity extends AppCompatActivity {
         void write(int out) {
             try {
                 mmOutStream.write(out);
-
-                // Share the sent message back to the UI Activity
-//                mHandler.obtainMessage(BluetoothChat.MESSAGE_WRITE, -1, -1, buffer)
-//                        .sendToTarget();
             } catch (IOException e) {
                 Log.e("WRITE FAIL", "Exception during write", e);
             }

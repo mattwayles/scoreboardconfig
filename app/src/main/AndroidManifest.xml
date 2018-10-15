@@ -22,7 +22,7 @@
         <activity
             android:name=".BluetoothFinderActivity"
             android:label="@string/title_activity_bluetooth_finder"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="preloaded_fonts"
