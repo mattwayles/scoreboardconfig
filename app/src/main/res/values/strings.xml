@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">ScoreboardConfig</string>
+    <string name="title">Scoreboard\nConfiguration</string>
+    <string name="btscan">Scan for Pi&#8230;</string>
+    <string name="scanning">Scanning for Devices&#8230;</string>
+    <string name="select_device">Select Bluetooth Device</string>
+    <string name="rescan">Rescan</string>
+    <string name="title_activity_bluetooth_finder">Bluetooth Scan</string>
+    <string name="title_activity_team_selection">TeamSelectionActivity</string>
+    <string name="connected">Connected to Pi</string>
+    <string name="teamName">Team Name</string>
+    <string name="vs">vs</string>
+    <string name="disconnected">DISCONNECTED</string>
+    <string name="new_game">New Game</string>
+    <string name="new_match">New Match</string>
+    <string name="logo">Logo</string>
+    <string name="select_blueooth_device">Select Blueooth Device</string>
+</resources>
