@@ -9,17 +9,16 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:onClick="hideKeyboard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
-            android:onClick="hideKeyboard"
             android:orientation="vertical">
 
             <LinearLayout
@@ -48,6 +47,7 @@
                     android:layout_marginRight="0dp"
                     android:gravity="end"
                     android:text="@string/connected"
+                    android:textColor="@color/greenSuccess"
                     android:textSize="18sp"
                     app:fontFamily="@font/baloo_da"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +63,7 @@
                 android:layout_marginLeft="32dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/select_scoreboard_type"
-                android:textColor="#000745"
+                android:textColor="@color/bluePrimary"
                 android:textSize="18sp"
                 app:fontFamily="@font/baloo_da"
                 app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +106,7 @@
                 android:layout_marginLeft="32dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/set_game_num"
-                android:textColor="#000745"
+                android:textColor="@color/bluePrimary"
                 android:textSize="18sp"
                 app:fontFamily="@font/baloo_da"
                 app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +120,36 @@
                 android:ems="10"
                 android:gravity="center_horizontal"
                 android:inputType="number"
-                android:text="@string/three" />
+                android:text="@string/three"
+                android:hint="@string/three"
+                android:layout_marginStart="56dp" />
+
+            <TextView
+                android:id="@+id/setGamesToWinView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/set_games_needed_to_win"
+                android:textColor="@color/bluePrimary"
+                android:textSize="18sp"
+                app:fontFamily="@font/baloo_da"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+            <EditText
+                android:id="@+id/gamesToWinEditText"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="56dp"
+                android:ems="10"
+                android:hint="@string/two"
+                android:gravity="center_horizontal"
+                android:inputType="number"
+                android:text="@string/two"
+                android:layout_marginStart="56dp"
+                />
 
             <TextView
                 android:id="@+id/gameScoresView"
@@ -130,7 +159,7 @@
                 android:layout_marginLeft="32dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/select_game_scores"
-                android:textColor="#000745"
+                android:textColor="@color/bluePrimary"
                 android:textSize="18sp"
                 app:fontFamily="@font/baloo_da"
                 app:layout_constraintStart_toStartOf="parent"
@@ -142,44 +171,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/gameScoreEditText1"
-                    android:layout_width="126dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="56dp"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:foregroundGravity="left"
-                    android:gravity="center_horizontal"
-                    android:hint="@string/game_score_1"
-                    android:inputType="number"
-                    android:textSize="10sp" />
-
-                <EditText
-                    android:id="@+id/gameScoreEditText2"
-                    android:layout_width="126dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="56dp"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:foregroundGravity="left"
-                    android:gravity="center_horizontal"
-                    android:hint="@string/game_score_2"
-                    android:inputType="number"
-                    android:textSize="10sp" />
-
-                <EditText
-                    android:id="@+id/gameScoreEditText3"
-                    android:layout_width="126dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="56dp"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:foregroundGravity="left"
-                    android:gravity="center_horizontal"
-                    android:hint="@string/game_score_3"
-                    android:inputType="number"
-                    android:textSize="10sp" />
             </LinearLayout>
 
             <TextView
@@ -190,7 +181,7 @@
                 android:layout_marginLeft="32dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/select_team_names"
-                android:textColor="#000745"
+                android:textColor="@color/bluePrimary"
                 android:textSize="18sp"
                 app:fontFamily="@font/baloo_da"
                 app:layout_constraintStart_toStartOf="parent"
@@ -203,7 +194,6 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
-                android:autofillHints="no"
                 android:ems="10"
                 android:gravity="center_horizontal"
                 android:hint="@string/teamName"
@@ -234,7 +224,6 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
-                android:autofillHints="no"
                 android:ems="10"
                 android:gravity="center_horizontal"
                 android:hint="@string/teamName"
@@ -244,7 +233,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/setNumofGamesView" />
 
             <TextView
-                android:id="@+id/errorView"
+                android:id="@+id/statusView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -252,7 +241,8 @@
                 android:gravity="end"
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="18sp"
-                app:fontFamily="@font/baloo_da" />
+                app:fontFamily="@font/baloo_da"
+                android:layout_marginEnd="16dp" />
 
             <Button
                 android:id="@+id/startMatchButton"
@@ -264,7 +254,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="25dp"
-                android:background="#000745"
+                android:background="@color/bluePrimary"
                 android:gravity="start"
                 android:onClick="startMatch"
                 android:padding="10dp"
