@@ -9,6 +9,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,13 +117,13 @@
                 android:id="@+id/numGamesEditText"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="56dp"
                 android:layout_marginLeft="56dp"
                 android:ems="10"
                 android:gravity="center_horizontal"
-                android:inputType="number"
-                android:text="@string/three"
                 android:hint="@string/three"
-                android:layout_marginStart="56dp" />
+                android:inputType="number"
+                android:text="@string/three" />
 
             <TextView
                 android:id="@+id/setGamesToWinView"
@@ -142,14 +143,13 @@
                 android:id="@+id/gamesToWinEditText"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="56dp"
                 android:layout_marginLeft="56dp"
                 android:ems="10"
-                android:hint="@string/two"
                 android:gravity="center_horizontal"
+                android:hint="@string/two"
                 android:inputType="number"
-                android:text="@string/two"
-                android:layout_marginStart="56dp"
-                />
+                android:text="@string/two" />
 
             <TextView
                 android:id="@+id/gameScoresView"
@@ -222,8 +222,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
+                android:layout_marginLeft="56dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
+                android:layout_marginRight="56dp"
                 android:ems="10"
                 android:gravity="center_horizontal"
                 android:hint="@string/teamName"
@@ -233,16 +235,37 @@
                 app:layout_constraintTop_toBottomOf="@+id/setNumofGamesView" />
 
             <TextView
+                android:id="@+id/setTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/set_theme"
+                android:textColor="@color/bluePrimary"
+                android:textSize="18sp"
+                app:fontFamily="@font/baloo_da"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+            <Spinner
+                android:id="@+id/themeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="56dp"
+                android:layout_marginRight="56dp" />
+
+            <TextView
                 android:id="@+id/statusView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:gravity="end"
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="18sp"
-                app:fontFamily="@font/baloo_da"
-                android:layout_marginEnd="16dp" />
+                app:fontFamily="@font/baloo_da" />
 
             <Button
                 android:id="@+id/startMatchButton"

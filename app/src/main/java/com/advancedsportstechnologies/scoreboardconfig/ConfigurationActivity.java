@@ -14,10 +14,14 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /**
  * This activity provides all of the required labels & textfields to actually configure the connected scoreboard.
@@ -31,13 +35,15 @@ public class ConfigurationActivity extends AppCompatActivity {
      * Register all the view objects you'll need
      */
     private TextView statusView;
+    private Spinner themeSpinner;
     private RadioGroup radioGroup;
     private EditText numGamesEditText;
     private LinearLayout gameScoreLayout;
     private SharedPreferences sharedPrefs;
     private EditText gamesNeededToWinEditText;
-    EditText teamName1EditText;
-    EditText teamName2EditText;
+    private ArrayAdapter<String> spinnerAdapter;
+    private EditText teamName1EditText;
+    private EditText teamName2EditText;
 
     private boolean paused = false;
     private final int MAX_SCORE = 99;
@@ -71,6 +77,7 @@ public class ConfigurationActivity extends AppCompatActivity {
         String gamesToWin = gamesNeededToWinEditText.getText().toString();
         String team1Name = teamName1EditText.getText().toString();
         String team2Name = teamName2EditText.getText().toString();
+        String theme = themeSpinner.getSelectedItem().toString().toLowerCase();
 
         //Initialize error handling
         statusView.setTextColor(Color.RED);
@@ -102,6 +109,7 @@ public class ConfigurationActivity extends AppCompatActivity {
             //Formulate JSON message to send to server
             String message = "{" +
                     "type:" + type + ", " +
+                    "theme:" + theme + ", " +
                     "numGames:" + numGames + ", " +
                     "gamesToWin:" + gamesToWin + ", " +
                     "gameScores:" + gameScoreValueStr + ", " +
@@ -153,13 +161,24 @@ public class ConfigurationActivity extends AppCompatActivity {
 
         radioGroup = findViewById(R.id.radioGroup);
         statusView = findViewById(R.id.statusView);
+        themeSpinner = findViewById(R.id.themeSpinner);
         gameScoreLayout = findViewById(R.id.gameScoresLayout);
         numGamesEditText = findViewById(R.id.numGamesEditText);
         teamName1EditText = findViewById(R.id.teamName1EditText);
         teamName2EditText = findViewById(R.id.teamName2EditText);
+        spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getThemes());
         gamesNeededToWinEditText = findViewById(R.id.gamesToWinEditText);
+
+        themeSpinner.setAdapter(spinnerAdapter);
     }
 
+    private ArrayList<String> getThemes() {
+        ArrayList<String> themes = new ArrayList<>();
+        themes.add("Original");
+        themes.add("Dark");
+
+        return themes;
+    }
     /**
      * If app has been used before, retrieve the values used last time
      */
