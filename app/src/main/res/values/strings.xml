@@ -1,5 +1,8 @@
 <resources>
+
     <string name="app_name">ScoreboardConfig</string>
+    <string name="version">v1.0_rc2</string>
+
     <string name="title">Scoreboard\nConfiguration</string>
     <string name="btscan">Scan for Scoreboard&#8230;</string>
     <string name="scanning">Scanning for Devices&#8230;</string>
@@ -33,7 +36,6 @@
     <string name="invalidGamesToWin">Games Needed to Win cannot be empty</string>
     <string name="invalidGamesToWin2">Number of Games must be more than Games Needed to Win</string>
     <string name="set_games_needed_to_win">Set Games Needed to Win</string>
-    <string name="version">v1.0_rc1</string>
     <string name="logo">Logo</string>
     <string name="three">3</string>
     <string name="two">2</string>

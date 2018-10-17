@@ -248,6 +248,8 @@ public class BluetoothFinderActivity extends AppCompatActivity {
             public void run() {
                 statusView.setText(R.string.select_device);
                 Toast.makeText(BluetoothFinderActivity.this, "Device connection was lost", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), BluetoothFinderActivity.class);
+                startActivity(intent);
             }
         });
     }

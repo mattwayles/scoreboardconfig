@@ -99,13 +99,13 @@ public class ConfigurationActivity extends AppCompatActivity {
 
 
             //Formulate JSON message to send to server
-            String message = "{'" +
-                    "type':'" + type + "', " +
-                    "'numGames':'" + numGames + "', " +
-                    "'gamesToWin':'" + gamesToWin + "', " +
-                    "'gameScores':'" + gameScoreValueStr + "', " +
-                    "'team1':'" + team1Name + "', " +
-                    "'team2':'" + team2Name + "'}";
+            String message = "{" +
+                    "type:" + type + ", " +
+                    "numGames:" + numGames + ", " +
+                    "gamesToWin:" + gamesToWin + ", " +
+                    "gameScores:" + gameScoreValueStr + ", " +
+                    "team1:" + team1Name + ", " +
+                    "team2:" + team2Name + "}";
 
             //Write data to connected Bluetooth device
             statusView.setText(R.string.sent);
@@ -241,7 +241,7 @@ public class ConfigurationActivity extends AppCompatActivity {
         StringBuilder gameScoreBuilder = new StringBuilder();
         for (int i = 0; i < gameScores.length; i++) {
             if (i != gameScores.length - 1) {
-                gameScoreBuilder.append(gameScores[i]).append("/");
+                gameScoreBuilder.append(gameScores[i]).append("-");
             } else {
                 gameScoreBuilder.append(gameScores[i]);
             }
@@ -268,7 +268,7 @@ public class ConfigurationActivity extends AppCompatActivity {
             //Format view text properties
             String hint = "Game " + (i + 1) + " Win Score";
             String scoreStr = sharedPrefs.getString("gameScores", "");
-            String[] scores = scoreStr != null && !scoreStr.isEmpty() ? scoreStr.split("/") : null;
+            String[] scores = scoreStr != null && !scoreStr.isEmpty() ? scoreStr.split("-") : null;
             if (scores != null){
                 if (i < scores.length) {
                     gameScoreEditText.setText(scores[i]);
@@ -344,6 +344,12 @@ public class ConfigurationActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 editText.setBackgroundColor(Color.TRANSPARENT);
+                if (s.toString().contains(",")) {
+                    editText.setText(s.toString().replace(",",""));
+                }
+                else if (s.toString().contains(":")) {
+                    editText.setText(s.toString().replace(":",""));
+                }
             }
 
             //Not used, but required to be here
