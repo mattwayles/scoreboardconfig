@@ -40,6 +40,7 @@ public class ConfigurationActivity extends AppCompatActivity {
     EditText teamName2EditText;
 
     private boolean paused = false;
+    private final int MAX_SCORE = 99;
 
     /**
      * On activity creation, set up the environment
@@ -275,7 +276,7 @@ public class ConfigurationActivity extends AppCompatActivity {
                 }
             }
 
-            //Format view layour parameters
+            //Format view layout parameters
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -296,10 +297,39 @@ public class ConfigurationActivity extends AppCompatActivity {
             gameScoreEditText.setGravity(Gravity.CENTER_HORIZONTAL);
             gameScoreEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
+            //Add Text Listeners to view
+            addGameScoreTextChangeListener(gameScoreEditText);
             //Add view to layout
             gameScoreLayout.addView(gameScoreEditText);
         }
     }
+
+    /**
+     * GameScoreViews must contain a value lower than MAX_SCORE. On text change, validate that the
+     * value is within the requried parameters
+     * @param editText The view being modified
+     */
+    private void addGameScoreTextChangeListener(final EditText editText) {
+    editText.addTextChangedListener(new TextWatcher() {
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            int gameScore = s.toString().isEmpty() ? 0 : Integer.parseInt(s.toString());
+            if (gameScore > MAX_SCORE) {
+                s = s.subSequence(0, s.length() - 1);
+                editText.setText(s);
+            }
+            editText.setTextColor(Color.BLACK);
+        }
+
+        //Not used, but required to be here
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+        //Not used, but required to be here
+        @Override
+        public void afterTextChanged(Editable s) { }
+    });
+    }
+
 
     /**
      * When the user enters text into the Number Of Games textbox, render the appropriate number of EditText Views
