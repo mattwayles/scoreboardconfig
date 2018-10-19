@@ -166,7 +166,7 @@ public class ConfigurationActivity extends AppCompatActivity {
         numGamesEditText = findViewById(R.id.numGamesEditText);
         teamName1EditText = findViewById(R.id.teamName1EditText);
         teamName2EditText = findViewById(R.id.teamName2EditText);
-        spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getThemes());
+        spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, getThemes());
         gamesNeededToWinEditText = findViewById(R.id.gamesToWinEditText);
 
         themeSpinner.setAdapter(spinnerAdapter);
