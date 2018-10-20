@@ -1,11 +1,11 @@
 <resources>
 
     <string name="app_name">AST Scoreboard</string>
-    <string name="version">v1.0_rc5</string>
+    <string name="version">v1.0_rc6</string>
 
     <string name="title">Scoreboard\nConfiguration</string>
-    <string name="btscan">Scan for Scoreboard&#8230;</string>
-    <string name="scanning">Scanning for Devices&#8230;</string>
+    <string name="connect_to_scoreboard">Connect to Scoreboard</string>
+    <string name="scanning">Scanning for Scoreboard&#8230;</string>
     <string name="select_device">Select Bluetooth Device</string>
     <string name="no_devices_found">No Devices Found</string>
     <string name="rescan">Rescan</string>
@@ -40,4 +40,9 @@
     <string name="three">3</string>
     <string name="two">2</string>
     <string name="set_theme">Set Scoreboard Theme</string>
+    <string name="no_scoreboard_found">No Scoreboard Found</string>
+    <string name="try_again">Try Again</string>
+    <string name="scan_again">Scan Again</string>
+    <string name="connecting">Connecting...</string>
+    <string name="go_to_config">Go To Configuration</string>
 </resources>
