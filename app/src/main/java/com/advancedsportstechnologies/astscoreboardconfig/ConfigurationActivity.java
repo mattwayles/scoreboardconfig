@@ -1,7 +1,6 @@
-package com.advancedsportstechnologies.scoreboardconfig;
+package com.advancedsportstechnologies.astscoreboardconfig;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
