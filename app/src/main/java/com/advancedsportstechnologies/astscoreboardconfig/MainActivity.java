@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     /**
-     * Create an Intent Filter to register and log messages from the bluetootth adapter
+     * Create an Intent Filter to register and log messages from the bluetooth adapter
      */
     private void initializeIntentFilter() {
         IntentFilter intentFilter = new IntentFilter();
