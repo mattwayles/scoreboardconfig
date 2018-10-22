@@ -172,10 +172,16 @@ public class ConfigurationActivity extends AppCompatActivity {
         themeSpinner.setAdapter(spinnerAdapter);
     }
 
+    /**
+     * Set the list of available themes
+     * @return  An ArrayList containign available themes
+     */
     private ArrayList<String> getThemes() {
+        //TODO: In future versions, the app should retrieve the available themes through the BT socket
         ArrayList<String> themes = new ArrayList<>();
-        themes.add("Original");
         themes.add("Dark");
+        themes.add("Retro");
+        themes.add("Traditional");
 
         return themes;
     }
