@@ -5,10 +5,11 @@ android {
     defaultConfig {
         applicationId 'com.advancedsportstechnologies.scoreboardconfig'
         minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 27
+        versionName '1.0_rc7'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode 2
+        versionNameSuffix 'rc7'
     }
     buildTypes {
         release {
