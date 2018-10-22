@@ -1,4 +1,4 @@
-package com.advancedsportstechnologies.scoreboardconfig;
+package com.advancedsportstechnologies.astscoreboardconfig;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -7,137 +7,88 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- * App activity responsible for all Bluetooth activities. This activity scans for bluetooth devices,
- * connects to selected devices on background threads, handles unexpected loss of connection, and writes
- * data to the server via Bluetooth socket.
+ *  Application Welcome screen presenting the corporation logo, Scoreboard Configuration title,
+ *  and a button allowing the user to scan for Bluetooth devices at their convenience
  */
-public class BluetoothFinderActivity extends AppCompatActivity {
-
-    /**
-     * Register all necessary page elements
-     */
-    private Button scanButton;
+public class MainActivity extends AppCompatActivity {
     private TextView statusView;
-    private ListView deviceView;
-    private ArrayList<String> deviceDisplayList;
-    private ArrayList<BluetoothDevice> deviceList;
-    private ArrayAdapter<String> adapter;
+    private Button button;
+    private boolean connecting = false;
+    private boolean connected = false;
+    private boolean connectionLost = false;
+    private ProgressBar loading;
     private ConnectThread connectThread;
+    private static ConnectedThread connectedThread;
     private BluetoothAdapter bluetoothAdapter;
-
-    static ConnectedThread connectedThread;
 
     /**
      * This UUID is used to communicate with the scoreboard
      */
-    private static final UUID MY_UUID = UUID.fromString("04c6093b-0000-1000-8000-00805f9b34fb");
+    private static final UUID SCOREBOARD_UUID = UUID.fromString("04c6093b-0000-1000-8000-00805f9b34fb");
+    private final String SCOREBOARD_HOSTNAME = "scoreboard";
 
     /**
-     * When this page is opened, immediately being scanning for devices
+     * Register the button when the app is opened
      * @param savedInstanceState    The saved state of the previous application run
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bluetooth_finder);
+        setContentView(R.layout.activity_main);
 
-        //Get handles to all Views
-        initializeViews();
-
-        //Setup the Intent Filter
-        initializeIntentFilter();
-
-        //Start auto discovery
-        statusView.setText(R.string.scanning);
-        bluetoothAdapter.startDiscovery();
-    }
-
-    /**
-     * On RESCAN button check, clear the list and begin scanning again
-     * @param view  A handle to the origin button
-     */
-    public void rescan(View view) {
-        deviceDisplayList.clear();
-        adapter.notifyDataSetChanged();
-
-        scanButton.setVisibility(View.INVISIBLE);
-        statusView.setText(R.string.scanning);
-
-        bluetoothAdapter.startDiscovery();
-    }
-
-    /**
-     * Resolve each element object to their corresponding Views
-     */
-    private void initializeViews() {
-        deviceDisplayList = new ArrayList<>();
-        deviceList = new ArrayList<>();
-        scanButton = findViewById(R.id.scanButton);
+        //Get components from activity
+        button = findViewById(R.id.button);
+        loading = findViewById(R.id.loading);
         statusView = findViewById(R.id.statusView);
-        deviceView = findViewById(R.id.deviceView);
-        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, deviceDisplayList) {
-
-            //Modify the ListView item text color
-            @NonNull
-            @Override
-            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-
-                View view = super.getView(position, convertView, parent);
-                TextView text = view.findViewById(android.R.id.text1);
-                text.setTextColor(Color.parseColor("#575757"));
-                return view;
-            }
-        };
-
-        //Set adapters
-        deviceView.setAdapter(adapter);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) {
-            Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
+        //Check for Bluetooth availability
+        checkBluetooth(bluetoothAdapter);
+
+        //Create handlers and actions for Bluetooth events
+        initializeIntentFilter();
+
+        Intent intent = getIntent();
+        connectionLost = intent.getBooleanExtra("connectionLost", false);
+
+        //Begin bluetooth discovery
+        if (!connectionLost) {
+            bluetoothAdapter.startDiscovery();
+        } else {
+            statusView.setText(R.string.disconnected);
+            statusView.setTextColor(getResources().getColor(R.color.redFailure));
+            loading.setVisibility(View.INVISIBLE);
+            button.setText(R.string.connect_to_scoreboard);
+            button.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * Check if Bluetooth is enabled on client device
+     */
+    private void checkBluetooth(BluetoothAdapter adapter) {
+        if (adapter == null || !adapter.isEnabled()) {
+            Toast.makeText(this, "Bluetooth is not Available", Toast.LENGTH_LONG).show();
             finish();
         }
-
-        setDeviceClickListener();
     }
-
     /**
-     * TWhen a Bluetooth device is clicked on the ListView, establish a connection
-     */
-    private void setDeviceClickListener() {
-        deviceView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BluetoothDevice device = deviceList.get(position);
-                connectThread = new ConnectThread(device);
-                connectThread.start();
-            }
-        });
-    }
-
-    /**
-     * Create an Intent Filter to register and log messages from the bluetootth adapter
+     * Create an Intent Filter to register and log messages from the bluetooth adapter
      */
     private void initializeIntentFilter() {
         IntentFilter intentFilter = new IntentFilter();
@@ -161,30 +112,36 @@ public class BluetoothFinderActivity extends AppCompatActivity {
 
             assert action != null;
             switch (action) {
-                case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:
-                    //When discovery has finished, enabled the rescan button and change the TextView
-                    scanButton.setVisibility(View.VISIBLE);
-                    scanButton.setEnabled(true);
-                    if (deviceDisplayList.size() == 0) {
-                        statusView.setText(R.string.no_devices_found);
-                    } else {
-                        statusView.setText(R.string.select_device);
-                    }
-
+                case BluetoothAdapter.ACTION_DISCOVERY_STARTED:
+                    statusView.setText(R.string.scanning);
+                    loading.setVisibility(View.VISIBLE);
                     break;
                 case BluetoothDevice.ACTION_FOUND:
                     //When a device has been found, add to the ListView
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
+                    //Check if found device is a scoreboard
                     String name = device.getName();
-                    String address = device.getAddress();
-                    int rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE);
-                    String deviceStr = name != null ? name + " (" + address + ") - Strength: " + String.valueOf(Math.abs(rssi)) + "%"
-                            : address + "- Strength: " + String.valueOf(Math.abs(rssi)) + "%";
-
-                    deviceDisplayList.add(deviceStr);
-                    deviceList.add(device);
-                    adapter.notifyDataSetChanged();
+                    Log.i("DEVICE FOUND: ", name != null ? name : "null");
+                    if (name != null && name.equals(SCOREBOARD_HOSTNAME)) {
+                        connecting = true;
+                        connectThread = new ConnectThread(device);
+                        connectThread.start();
+                    }
+                    break;
+                case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:
+                    if (connecting) {
+                        statusView.setText(R.string.connecting);
+                        statusView.setTextColor(getResources().getColor(R.color.greenSuccess));
+                        connecting = false;
+                    }
+                    else {
+                        statusView.setText(getString(R.string.no_scoreboard_found));
+                        statusView.setTextColor(getResources().getColor(R.color.redFailure));
+                        loading.setVisibility(View.INVISIBLE);
+                        button.setText(getString(R.string.try_again));
+                        button.setVisibility(View.VISIBLE);
+                    }
                     break;
             }
         }
@@ -210,9 +167,42 @@ public class BluetoothFinderActivity extends AppCompatActivity {
         // Start the thread to manage the connection and perform transmissions
         connectedThread = new ConnectedThread(socket);
         connectedThread.start();
+        connected = true;
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(), ConfigurationActivity.class);
+                startActivity(intent);
+            }
+        });
+        try {
+            Thread.sleep(1000);
+            MainActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    statusView.setText(R.string.connected);
+                    button.setText(getString(R.string.go_to_config));
+                    loading.setVisibility(View.INVISIBLE);
+                    button.setVisibility(View.VISIBLE);
+                }
+            });
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-        Intent intent = new Intent(getApplicationContext(), ConfigurationActivity.class);
-        startActivity(intent);
+    /**
+     * Indicate that the connection was lost and notify the UI Activity.
+     */
+    private void connectionLost() {
+        MainActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(MainActivity.this, "Device connection was lost", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("connectionLost", true);
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -241,18 +231,26 @@ public class BluetoothFinderActivity extends AppCompatActivity {
 
 
     /**
-     * Indicate that the connection was lost and notify the UI Activity.
+     * On button press, begin scanning for Bluetooth devices
+     * @param view  A handle to the origin button
      */
-    private void connectionLost() {
-        BluetoothFinderActivity.this.runOnUiThread(new Runnable() {
-            public void run() {
-                statusView.setText(R.string.select_device);
-                Toast.makeText(BluetoothFinderActivity.this, "Device connection was lost", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), BluetoothFinderActivity.class);
-                startActivity(intent);
-            }
-        });
+    public void startScan(View view) {
+        if (connected) {
+            Intent intent = new Intent(getApplicationContext(), ConfigurationActivity.class);
+            startActivity(intent);
+        } else {
+            button.setVisibility(View.INVISIBLE);
+            statusView.setTextColor(getResources().getColor(R.color.greenSuccess));
+            statusView.setText(R.string.scanning);
+            loading.setVisibility(View.VISIBLE);
+            bluetoothAdapter.startDiscovery();
+        }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////// CONNECT THREAD ///////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     /**
      * This thread runs while attempting to make an outgoing connection
@@ -272,7 +270,7 @@ public class BluetoothFinderActivity extends AppCompatActivity {
             // Get a BluetoothSocket for a connection with the
             // given BluetoothDevice
             try {
-                tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
+                tmp = device.createRfcommSocketToServiceRecord(SCOREBOARD_UUID);
             } catch (IOException e) {
                 Log.e("Failure", "create() failed", e);
             }
@@ -320,6 +318,11 @@ public class BluetoothFinderActivity extends AppCompatActivity {
         }
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////// CONNECTED THREAD ///////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * This thread runs during a connection with a remote device.
      * It handles all incoming and outgoing transmissions.
@@ -365,7 +368,7 @@ public class BluetoothFinderActivity extends AppCompatActivity {
                     final int bytes = mmInStream.read(buffer);
 
                     // Send the obtained bytes to the UI Activity
-                    BluetoothFinderActivity.this.runOnUiThread(new Runnable() {
+                    MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             write(bytes);

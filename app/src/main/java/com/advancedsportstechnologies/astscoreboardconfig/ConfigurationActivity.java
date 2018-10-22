@@ -1,7 +1,6 @@
-package com.advancedsportstechnologies.scoreboardconfig;
+package com.advancedsportstechnologies.astscoreboardconfig;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +40,6 @@ public class ConfigurationActivity extends AppCompatActivity {
     private LinearLayout gameScoreLayout;
     private SharedPreferences sharedPrefs;
     private EditText gamesNeededToWinEditText;
-    private ArrayAdapter<String> spinnerAdapter;
     private EditText teamName1EditText;
     private EditText teamName2EditText;
 
@@ -123,34 +121,39 @@ public class ConfigurationActivity extends AppCompatActivity {
 
             //TODO: Return error message if connection fails?
 
-            BluetoothFinderActivity.writeToServer(message.length());
-            BluetoothFinderActivity.writeToServer(message);
+            MainActivity.writeToServer(message.length());
+            MainActivity.writeToServer(message);
         }
     }
 
-    /**
-     * When app pauses, close the Bluetooth connection to save battery life
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        BluetoothFinderActivity.closeSocket();
-        paused = true;
-    }
-
-    /**
-     * When app opens back up after pausing, return to the previous page to restore Bluetooth connection
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (paused) {
-            Intent intent = new Intent(getApplicationContext(), BluetoothFinderActivity.class);
-            startActivity(intent);
-            paused = false;
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        MainActivity.closeSocket();
+//        super.onBackPressed();
+//    }
+//
+//    /**
+//     * When app pauses, close the Bluetooth connection to save battery life
+//     */
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        MainActivity.closeSocket();
+//        paused = true;
+//    }
+//
+//    /**
+//     * When app opens back up after pausing, return to the previous page to restore Bluetooth connection
+//     */
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (paused) {
+//            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//            startActivity(intent);
+//            paused = false;
+//        }
+//    }
 
     /**
      * Attach allocated Java objects to the activity View elements to retrieve & modify data
@@ -166,7 +169,7 @@ public class ConfigurationActivity extends AppCompatActivity {
         numGamesEditText = findViewById(R.id.numGamesEditText);
         teamName1EditText = findViewById(R.id.teamName1EditText);
         teamName2EditText = findViewById(R.id.teamName2EditText);
-        spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, getThemes());
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, getThemes());
         gamesNeededToWinEditText = findViewById(R.id.gamesToWinEditText);
 
         themeSpinner.setAdapter(spinnerAdapter);

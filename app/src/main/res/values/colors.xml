@@ -2,5 +2,6 @@
 <resources>
     <color name="bluePrimary">#005975</color>
     <color name="grayAccent">#575757</color>
-    <color name="greenSuccess">#005A00</color>
+    <color name="greenSuccess">#005400</color>
+    <color name="redFailure">#540001</color>
 </resources>
