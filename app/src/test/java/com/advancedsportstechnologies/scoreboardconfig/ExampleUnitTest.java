@@ -1,4 +1,4 @@
-package com.advancedsportstechnologies.astscoreboardconfig;
+package com.advancedsportstechnologies.scoreboardconfig;
 
 import org.junit.Test;
 

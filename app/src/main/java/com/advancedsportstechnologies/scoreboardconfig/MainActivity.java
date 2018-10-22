@@ -1,4 +1,4 @@
-package com.advancedsportstechnologies.astscoreboardconfig;
+package com.advancedsportstechnologies.scoreboardconfig;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -40,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
      * This UUID is used to communicate with the scoreboard
      */
     private static final UUID SCOREBOARD_UUID = UUID.fromString("04c6093b-0000-1000-8000-00805f9b34fb");
+
     private final String SCOREBOARD_HOSTNAME = "scoreboard";
+    private final String DEBUG_HOSTNAME = "TAPSCCXTG7H2";
 
     /**
      * Register the button when the app is opened
@@ -106,14 +108,14 @@ public class MainActivity extends AppCompatActivity {
      */
     private final BroadcastReceiver broadcastReceiver =  new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public synchronized void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            Log.i("Action", action);
 
             assert action != null;
             switch (action) {
                 case BluetoothAdapter.ACTION_DISCOVERY_STARTED:
                     statusView.setText(R.string.scanning);
+                    statusView.setTextColor(getResources().getColor(R.color.greenSuccess));
                     loading.setVisibility(View.VISIBLE);
                     break;
                 case BluetoothDevice.ACTION_FOUND:
@@ -123,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     //Check if found device is a scoreboard
                     String name = device.getName();
                     Log.i("DEVICE FOUND: ", name != null ? name : "null");
-                    if (name != null && name.equals(SCOREBOARD_HOSTNAME)) {
+                    if (!connecting && name != null && (name.equals(SCOREBOARD_HOSTNAME) || name.equals(DEBUG_HOSTNAME))) {
                         connecting = true;
                         connectThread = new ConnectThread(device);
                         connectThread.start();
@@ -181,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     statusView.setText(R.string.connected);
+                    statusView.setTextColor(getResources().getColor(R.color.greenSuccess));
                     button.setText(getString(R.string.go_to_config));
                     loading.setVisibility(View.INVISIBLE);
                     button.setVisibility(View.VISIBLE);
@@ -195,14 +198,15 @@ public class MainActivity extends AppCompatActivity {
      * Indicate that the connection was lost and notify the UI Activity.
      */
     private void connectionLost() {
-        MainActivity.this.runOnUiThread(new Runnable() {
-            public void run() {
-                Toast.makeText(MainActivity.this, "Device connection was lost", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("connectionLost", true);
-                startActivity(intent);
-            }
-        });
+            MainActivity.this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(MainActivity.this, "Device connection was lost", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.putExtra("connectionLost", true);
+                        startActivity(intent);
+                        finish();
+                    }
+            });
     }
 
     /**
@@ -221,14 +225,6 @@ public class MainActivity extends AppCompatActivity {
         byte[] dataBytes = data.getBytes();
         connectedThread.write(dataBytes);
     }
-
-    /**
-     * Close the bluetooth socket
-     */
-    public static void closeSocket() {
-        connectedThread.cancel();
-    }
-
 
     /**
      * On button press, begin scanning for Bluetooth devices
@@ -293,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
                 // successful connection or an exception
                 mmSocket.connect();
             } catch (IOException e) {
-                Log.e("Failure", "Connection Failed");
+                Log.e("Failure", "Connection Failed", e);
                 // Close the socket
                 try {
                     mmSocket.close();

@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">AST Scoreboard</string>
-    <string name="version">v1.0_rc6</string>
+    <string name="version">v1.0_rc7</string>
 
     <string name="title">Scoreboard\nConfiguration</string>
     <string name="connect_to_scoreboard">Connect to Scoreboard</string>
@@ -43,6 +43,6 @@
     <string name="no_scoreboard_found">No Scoreboard Found</string>
     <string name="try_again">Try Again</string>
     <string name="scan_again">Scan Again</string>
-    <string name="connecting">Connecting...</string>
+    <string name="connecting">Connecting&#8230;</string>
     <string name="go_to_config">Go To Configuration</string>
 </resources>

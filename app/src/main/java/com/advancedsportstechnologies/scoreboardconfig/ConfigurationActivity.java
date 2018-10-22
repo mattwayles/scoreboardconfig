@@ -1,4 +1,4 @@
-package com.advancedsportstechnologies.astscoreboardconfig;
+package com.advancedsportstechnologies.scoreboardconfig;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -43,7 +43,6 @@ public class ConfigurationActivity extends AppCompatActivity {
     private EditText teamName1EditText;
     private EditText teamName2EditText;
 
-    private boolean paused = false;
     private final int MAX_SCORE = 99;
 
     /**
@@ -126,35 +125,6 @@ public class ConfigurationActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        MainActivity.closeSocket();
-//        super.onBackPressed();
-//    }
-//
-//    /**
-//     * When app pauses, close the Bluetooth connection to save battery life
-//     */
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        MainActivity.closeSocket();
-//        paused = true;
-//    }
-//
-//    /**
-//     * When app opens back up after pausing, return to the previous page to restore Bluetooth connection
-//     */
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if (paused) {
-//            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//            startActivity(intent);
-//            paused = false;
-//        }
-//    }
-
     /**
      * Attach allocated Java objects to the activity View elements to retrieve & modify data
      */
@@ -173,11 +143,12 @@ public class ConfigurationActivity extends AppCompatActivity {
         gamesNeededToWinEditText = findViewById(R.id.gamesToWinEditText);
 
         themeSpinner.setAdapter(spinnerAdapter);
+        themeSpinner.setSelection(2, true);
     }
 
     /**
      * Set the list of available themes
-     * @return  An ArrayList containign available themes
+     * @return  An ArrayList containing available themes
      */
     private ArrayList<String> getThemes() {
         //TODO: In future versions, the app should retrieve the available themes through the BT socket
@@ -295,7 +266,7 @@ public class ConfigurationActivity extends AppCompatActivity {
             EditText gameScoreEditText = new EditText(getApplicationContext());
 
             //Format view text properties
-            String hint = "Game " + (i + 1) + " Win Score";
+            String hint = "Game " + (i + 1);
             String scoreStr = sharedPrefs.getString("gameScores", "");
             String[] scores = scoreStr != null && !scoreStr.isEmpty() ? scoreStr.split("-") : null;
             if (scores != null){
@@ -318,7 +289,7 @@ public class ConfigurationActivity extends AppCompatActivity {
 
             //Set view properties
             gameScoreEditText.setHint(hint);
-            gameScoreEditText.setTextSize(10f);
+            gameScoreEditText.setTextSize(18f);
             gameScoreEditText.setLayoutParams(lp);
             gameScoreEditText.setTextColor(Color.BLACK);
             gameScoreEditText.setHintTextColor(Color.GRAY);

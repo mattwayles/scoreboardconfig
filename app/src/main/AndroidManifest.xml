@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.advancedsportstechnologies.astscoreboardconfig">
+    package="com.advancedsportstechnologies.scoreboardconfig">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -12,23 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Light">
-        <activity android:name="com.advancedsportstechnologies.astscoreboardconfig.MainActivity">
+        <activity android:name="com.advancedsportstechnologies.scoreboardconfig.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".BluetoothFinderActivity"
-            android:label="@string/title_activity_bluetooth_finder"
-            android:theme="@style/Light" />
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
-        <activity android:name="com.advancedsportstechnologies.astscoreboardconfig.ConfigurationActivity"
+        <activity android:name="com.advancedsportstechnologies.scoreboardconfig.ConfigurationActivity"
             android:theme="@style/Light" />
     </application>
 

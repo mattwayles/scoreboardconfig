@@ -1,4 +1,4 @@
-package com.advancedsportstechnologies.astscoreboardconfig;
+package com.advancedsportstechnologies.scoreboardconfig;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
