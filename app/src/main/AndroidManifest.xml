@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Light">
-        <activity android:name="com.advancedsportstechnologies.scoreboardconfig.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -22,7 +22,7 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <activity android:name="com.advancedsportstechnologies.scoreboardconfig.ConfigurationActivity"
+        <activity android:name=".ConfigurationActivity"
             android:theme="@style/Light" />
     </application>
 

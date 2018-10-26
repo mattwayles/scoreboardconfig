@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -21,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This activity provides all of the required labels & textfields to actually configure the connected scoreboard.
@@ -35,13 +37,13 @@ public class ConfigurationActivity extends AppCompatActivity {
      */
     private TextView statusView;
     private Spinner themeSpinner;
+    private Spinner matchTypeSpinner;
     private RadioGroup radioGroup;
-    private EditText numGamesEditText;
     private LinearLayout gameScoreLayout;
     private SharedPreferences sharedPrefs;
-    private EditText gamesNeededToWinEditText;
     private EditText teamName1EditText;
     private EditText teamName2EditText;
+    private List<String> matchTypes;
 
     private final int MAX_SCORE = 99;
 
@@ -70,21 +72,21 @@ public class ConfigurationActivity extends AppCompatActivity {
     public void startMatch(View view) {
 
         //Retrieve user input
-        String numGames = numGamesEditText.getText().toString();
-        String gamesToWin = gamesNeededToWinEditText.getText().toString();
         String team1Name = teamName1EditText.getText().toString();
         String team2Name = teamName2EditText.getText().toString();
         String theme = themeSpinner.getSelectedItem().toString().toLowerCase();
+        String matchType = matchTypeSpinner.getSelectedItem().toString();
+        int numGames = matchType.equals("Single") ? 1 : Integer.parseInt(matchType.substring(matchType.length() - 1));
 
         //Initialize error handling
         statusView.setTextColor(Color.RED);
         statusView.setAlpha(1);
 
         //Initialize Game Win Scores
-        int[] gameScores = numGames.isEmpty() ? new int[0] : new int[Integer.parseInt(numGames)];
+        int[] gameScores = new int[numGames];
 
         //Validate input
-        if (inputIsValid(numGames, gamesToWin, team1Name, team2Name, gameScores)) {
+        if (inputIsValid(team1Name, team2Name, gameScores)) {
 
             //Retrieve scoreboard type
             String type = radioGroup.getCheckedRadioButtonId() == R.id.standardRadio ? "standard" : "switch";
@@ -92,14 +94,17 @@ public class ConfigurationActivity extends AppCompatActivity {
             //Parse String gameScore values
             String gameScoreValueStr = parseGameScores(gameScores);
 
+            //Set Games to Win Value
+            int gamesToWin = numGames == 1 ? 1 : numGames / 2 + 1;
+
             //Add user input to Shared Preferences for retrieval on next run
             sharedPrefs.edit()
                     .putString("type", type)
                     .putString("team1Name", team1Name)
                     .putString("team2Name", team2Name)
-                    .putString("numGames", numGames)
                     .putString("gameScores", gameScoreValueStr)
-                    .putString("gamesToWin", gamesToWin)
+                    .putInt("numGames", matchTypeSpinner.getSelectedItemPosition())
+                    .putInt("themePos", themeSpinner.getSelectedItemPosition())
                     .apply();
 
 
@@ -135,15 +140,19 @@ public class ConfigurationActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         statusView = findViewById(R.id.statusView);
         themeSpinner = findViewById(R.id.themeSpinner);
+        matchTypeSpinner = findViewById(R.id.matchTypeSpinner);
         gameScoreLayout = findViewById(R.id.gameScoresLayout);
-        numGamesEditText = findViewById(R.id.numGamesEditText);
         teamName1EditText = findViewById(R.id.teamName1EditText);
         teamName2EditText = findViewById(R.id.teamName2EditText);
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, getThemes());
-        gamesNeededToWinEditText = findViewById(R.id.gamesToWinEditText);
+        ArrayAdapter<String> themeSpinnerAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_dropdown_item, getThemes());
+        ArrayAdapter<String> matchTypeSpinnerAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_dropdown_item, matchTypes);
 
-        themeSpinner.setAdapter(spinnerAdapter);
-        themeSpinner.setSelection(2, true);
+        themeSpinner.setAdapter(themeSpinnerAdapter);
+
+        matchTypeSpinner.setAdapter(matchTypeSpinnerAdapter);
+        matchTypeSpinner.setOnItemSelectedListener(matchTypeSelection());
     }
 
     /**
@@ -159,55 +168,49 @@ public class ConfigurationActivity extends AppCompatActivity {
 
         return themes;
     }
+
+    /**
+     * Set the list of available match types
+     */
+    private void setMatchTypes() {
+        matchTypes.add("Single");
+        matchTypes.add("Best of 3");
+        matchTypes.add("Best of 5");
+        matchTypes.add("Best of 7");
+        matchTypes.add("Best of 9");
+    }
+
     /**
      * If app has been used before, retrieve the values used last time
      */
     private void setInitialValues() {
+        setMatchTypes();
+
         teamName1EditText.setText(sharedPrefs.getString("team1Name", ""));
         teamName2EditText.setText(sharedPrefs.getString("team2Name", ""));
-        numGamesEditText.setText(sharedPrefs.getString("numGames", "3"));
-        gamesNeededToWinEditText.setText(sharedPrefs.getString("gamesToWin", "2"));
+        themeSpinner.setSelection(sharedPrefs.getInt("themePos", 2));
+        matchTypeSpinner.setSelection(sharedPrefs.getInt("numGames", 0));
 
-        renderGameScoreEditViews();
+        renderGameScoreEditViews(1);
     }
 
     /**
      * Add text change listeners to perform operations to protect against invalid input
      */
     private void addTextChangedListeners() {
-        addGameNumTextChangedListener(numGamesEditText);
-        addGameNumTextChangedListener(gamesNeededToWinEditText);
-
         addTextChangedListener(teamName1EditText);
         addTextChangedListener(teamName2EditText);
     }
 
     /**
      * Validate user input
-     * @param numGames  The Number of Games user input
-     * @param gamesToWin    The Games Needed To Win user input
      * @param team1Name The Team 1 name user input
      * @param team2Name The team 2 name user input
      * @param gameScores    The list of gameScores user input
      * @return  Boolean value indicating the validity of the input
      */
-    private boolean inputIsValid(String numGames, String gamesToWin, String team1Name, String team2Name, int[] gameScores) {
-        if (numGames.isEmpty() || Integer.parseInt(numGames) < 0 || Integer.parseInt(numGames) > 9) {
-            numGamesEditText.setBackgroundColor(Color.parseColor("#fa8072"));
-            statusView.setText(R.string.invalidNumGames);
-            return false;
-        }
-        else if (gamesToWin.isEmpty()) {
-            gamesNeededToWinEditText.setBackgroundColor(Color.parseColor("#fa8072"));
-            statusView.setText(R.string.invalidGamesToWin);
-            return false;
-        }
-        else if (Integer.parseInt(gamesToWin) > Integer.parseInt(numGames)) {
-            numGamesEditText.setBackgroundColor(Color.parseColor("#fa8072"));
-            statusView.setText(R.string.invalidGamesToWin2);
-            return false;
-        }
-        else if (team1Name.isEmpty()) {
+    private boolean inputIsValid(String team1Name, String team2Name, int[] gameScores) {
+        if (team1Name.isEmpty()) {
             teamName1EditText.setBackgroundColor(Color.parseColor("#fa8072"));
             statusView.setText(R.string.emptyTeam1Name);
             return false;
@@ -253,13 +256,10 @@ public class ConfigurationActivity extends AppCompatActivity {
      * GameScoreEditViews are rendered based on the user input in the Number of Games text box.
      * This method takes the user input and renders the appropriate number of formatted EditText views.
      */
-    private void renderGameScoreEditViews() {
+    private void renderGameScoreEditViews(int gameNum) {
 
         //Remove previous views
         gameScoreLayout.removeAllViews();
-
-        //Retrieve number of views to be created
-        int gameNum = numGamesEditText.getText().toString().isEmpty() ? 0 : Integer.parseInt(numGamesEditText.getText().toString());
 
         for (int i = 0; i < gameNum; i++) {
             //Create the view
@@ -329,39 +329,26 @@ public class ConfigurationActivity extends AppCompatActivity {
     });
     }
 
-
     /**
-     * When the user enters text into the Number Of Games textbox, render the appropriate number of EditText Views
-     *
-     * Number of Games can hold a single, numerical character.
-     *
-     * @param editText  The EditText view holding the Number of Games variable
+     * When a user selects a match type, render the appropriate number of EditText Views
+     * @return An OnItemSelectedListener for the MatchType spinner
      */
-    private void addGameNumTextChangedListener(final EditText editText) {
-        editText.addTextChangedListener(new TextWatcher() {
+    private AdapterView.OnItemSelectedListener matchTypeSelection() {
+        return new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                editText.setBackgroundColor(Color.TRANSPARENT);
-
-                if (s.length() > 1) {
-                    s = s.subSequence(0, 1);
-                    editText.setText(s);
-                }
-
-                if (editText.getId() == R.id.numGamesEditText) {
-                    renderGameScoreEditViews();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (matchTypes.get(position).equals("Single")) {
+                    renderGameScoreEditViews(1);
+                } else {
+                    String selection = matchTypes.get(position);
+                    int gameNum = Integer.parseInt(selection.substring(selection.length() - 1));
+                    renderGameScoreEditViews(gameNum);
                 }
             }
 
-            //Not used, but required to be here
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            //Not used, but required to be here
-            @Override
-            public void afterTextChanged(Editable s) { }
-
-
-        });
+            public void onNothingSelected(AdapterView<?> parent) { }
+        };
     }
 
     /**

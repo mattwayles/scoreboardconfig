@@ -99,56 +99,25 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/setNumofGamesView"
+                android:id="@+id/setMatchTypeView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginLeft="32dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/set_game_num"
+                android:text="@string/set_match_type"
                 android:textColor="@color/bluePrimary"
                 android:textSize="18sp"
                 app:fontFamily="@font/baloo_da"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
-            <EditText
-                android:id="@+id/numGamesEditText"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="56dp"
-                android:layout_marginLeft="56dp"
-                android:ems="10"
-                android:gravity="center_horizontal"
-                android:hint="@string/three"
-                android:inputType="number"
-                android:text="@string/three" />
-
-            <TextView
-                android:id="@+id/setGamesToWinView"
+            <Spinner
+                android:id="@+id/matchTypeSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/set_games_needed_to_win"
-                android:textColor="@color/bluePrimary"
-                android:textSize="18sp"
-                app:fontFamily="@font/baloo_da"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
-
-            <EditText
-                android:id="@+id/gamesToWinEditText"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="56dp"
                 android:layout_marginLeft="56dp"
-                android:ems="10"
-                android:gravity="center_horizontal"
-                android:hint="@string/two"
-                android:inputType="number"
-                android:text="@string/two" />
+                android:layout_marginRight="56dp" />
 
             <TextView
                 android:id="@+id/gameScoresView"
@@ -199,7 +168,7 @@
                 android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/setNumofGamesView" />
+                app:layout_constraintTop_toBottomOf="@+id/setMatchTypeView" />
 
             <TextView
                 android:id="@+id/vs"
@@ -231,7 +200,7 @@
                 android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/setNumofGamesView" />
+                app:layout_constraintTop_toBottomOf="@+id/setMatchTypeView" />
 
             <TextView
                 android:id="@+id/setTheme"
