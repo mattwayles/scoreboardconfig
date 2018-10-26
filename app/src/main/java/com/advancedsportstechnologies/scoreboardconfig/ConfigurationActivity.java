@@ -43,7 +43,7 @@ public class ConfigurationActivity extends AppCompatActivity {
     private SharedPreferences sharedPrefs;
     private EditText teamName1EditText;
     private EditText teamName2EditText;
-    private List<String> matchTypes;
+    private List<String> matchTypes = new ArrayList<>();
 
     private final int MAX_SCORE = 99;
 
@@ -137,6 +137,7 @@ public class ConfigurationActivity extends AppCompatActivity {
         sharedPrefs = this.getSharedPreferences("com.advancedsportstechnologies.scoreboardconfig",
                 Context.MODE_PRIVATE);
 
+        setMatchTypes();
         radioGroup = findViewById(R.id.radioGroup);
         statusView = findViewById(R.id.statusView);
         themeSpinner = findViewById(R.id.themeSpinner);
@@ -184,8 +185,6 @@ public class ConfigurationActivity extends AppCompatActivity {
      * If app has been used before, retrieve the values used last time
      */
     private void setInitialValues() {
-        setMatchTypes();
-
         teamName1EditText.setText(sharedPrefs.getString("team1Name", ""));
         teamName2EditText.setText(sharedPrefs.getString("team2Name", ""));
         themeSpinner.setSelection(sharedPrefs.getInt("themePos", 2));
