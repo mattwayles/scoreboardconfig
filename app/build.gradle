@@ -3,13 +3,12 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId 'com.advancedsportstechnologies.scoreboardconfig'
+        applicationId 'com.advancedsportstechnologies.astscoreboardconfig'
         minSdkVersion 15
         targetSdkVersion 27
-        versionName '1.0_rc7'
+        versionName '1.0'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        versionCode 2
-        versionNameSuffix 'rc7'
+        versionCode 1
     }
     buildTypes {
         release {
