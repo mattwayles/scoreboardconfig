@@ -21,13 +21,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
-//TODO:
-  // New match / Update match button (app)
-  // Win by 2 consumption and icon (scoreboard)
-  // If white button pressed at 0/0, swap sides (scoreboard)
-
-
-
 /**
  *  Application Welcome screen presenting the corporation logo, Scoreboard Configuration title,
  *  and a button allowing the user to scan for Bluetooth devices at their convenience
