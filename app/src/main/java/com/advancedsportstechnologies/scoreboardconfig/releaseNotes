@@ -1,0 +1,6 @@
+v1.1 Release Notes
+
+- Added a 'Win By 2' option to match types
+- Added an in-app swap teams option
+- Added ability to create new match or update the existing match while preserving current match state
+- Minor bug fixes and terminology changes

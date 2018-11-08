@@ -82,19 +82,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/selectScoreboardTypeView">
 
                 <RadioButton
+                    android:id="@+id/switchRadio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/switch_sides" />
+
+                <RadioButton
                     android:id="@+id/standardRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/standard"
                     android:textSize="14sp" />
-
-                <RadioButton
-                    android:id="@+id/switchRadio"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/switch_sides" />
 
             </RadioGroup>
 
@@ -118,6 +118,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="56dp"
                 android:layout_marginRight="56dp" />
+
+            <CheckBox
+                android:id="@+id/winByTwoCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="56dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="56dp"
+                android:gravity="center"
+                android:text="@string/win_by_two" />
 
             <TextView
                 android:id="@+id/gameScoresView"
@@ -157,9 +167,10 @@
 
             <EditText
                 android:id="@+id/teamName1EditText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
+                android:layout_marginLeft="56dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:ems="10"
@@ -170,28 +181,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/setMatchTypeView" />
 
-            <TextView
-                android:id="@+id/vs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="163dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="163dp"
-                android:gravity="center_horizontal"
-                android:text="@string/vs"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.525"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/teamName1EditText" />
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="42dp"
+                android:layout_marginTop="16dp"
+                android:onClick="swapTeams"
+                app:srcCompat="@drawable/swap" />
 
             <EditText
                 android:id="@+id/teamName2EditText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginLeft="56dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginRight="56dp"
                 android:ems="10"
@@ -220,7 +225,7 @@
                 android:id="@+id/themeSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="56dp"
+                android:layout_marginLeft="42dp"
                 android:layout_marginRight="56dp" />
 
             <TextView
@@ -235,24 +240,48 @@
                 android:textSize="18sp"
                 app:fontFamily="@font/baloo_da" />
 
-            <Button
-                android:id="@+id/startMatchButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="25dp"
-                android:background="@color/bluePrimary"
-                android:gravity="start"
-                android:onClick="startMatch"
-                android:padding="10dp"
-                android:text="@string/new_match"
-                android:textColor="@android:color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/teamName2EditText" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="end"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <Button
+                    android:id="@+id/updateMatch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/bluePrimary"
+                    android:gravity="start"
+                    android:onClick="configMatch"
+                    android:padding="10dp"
+                    android:tag="@string/update_match"
+                    android:text="@string/updateCurrent"
+                    android:textColor="@android:color/white"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/teamName2EditText"
+                    android:layout_marginRight="16dp" />
+
+                <Button
+                    android:id="@+id/startMatchButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/bluePrimary"
+                    android:gravity="end"
+                    android:onClick="configMatch"
+                    android:padding="10dp"
+                    android:tag="@string/start_match"
+                    android:text="@string/new_match"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/teamName2EditText"
+                    android:layout_marginRight="16dp" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
