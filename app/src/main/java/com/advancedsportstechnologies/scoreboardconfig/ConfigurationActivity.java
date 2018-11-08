@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -38,6 +39,7 @@ public class ConfigurationActivity extends AppCompatActivity {
      * Register all the view objects you'll need
      */
     private TextView statusView;
+    private ImageView swapImageView;
     private CheckBox winByTwoCheckbox;
     private Spinner themeSpinner;
     private Spinner matchTypeSpinner;
@@ -46,7 +48,6 @@ public class ConfigurationActivity extends AppCompatActivity {
     private SharedPreferences sharedPrefs;
     private EditText teamName1EditText;
     private EditText teamName2EditText;
-    private Button updateMatch;
     private List<String> matchTypes = new ArrayList<>();
 
     private boolean swap;
@@ -83,7 +84,6 @@ public class ConfigurationActivity extends AppCompatActivity {
         String matchType = matchTypeSpinner.getSelectedItem().toString();
         int numGames = matchType.equals("Single") ? 1 : Integer.parseInt(matchType.substring(matchType.length() - 1));
         boolean winByTwo = winByTwoCheckbox.isChecked();
-        boolean newMatch = view.getTag().equals(R.string.new_match);
 
         //Initialize error handling
         statusView.setTextColor(Color.RED);
@@ -95,7 +95,7 @@ public class ConfigurationActivity extends AppCompatActivity {
         //Validate input
         if (inputIsValid(team1Name, team2Name, gameScores)) {
             //Enable Update button
-            updateMatch.setVisibility(View.VISIBLE);
+            swapImageView.setVisibility(View.VISIBLE);
 
             //Retrieve scoreboard type
             String type = radioGroup.getCheckedRadioButtonId() == R.id.standardRadio ? "standard" : "switch";
@@ -125,8 +125,6 @@ public class ConfigurationActivity extends AppCompatActivity {
                     "gamesToWin:" + gamesToWin + ", " +
                     "gameScores:" + gameScoreValueStr + ", " +
                     "winByTwo:" + winByTwo + ", " +
-                    "swap:" + swap + ", " +
-                    "new:" + newMatch + ", " +
                     "team1:" + team1Name + ", " +
                     "team2:" + team2Name + "}";
 
@@ -162,7 +160,7 @@ public class ConfigurationActivity extends AppCompatActivity {
                 Context.MODE_PRIVATE);
 
         setMatchTypes();
-        updateMatch = findViewById(R.id.updateMatch);
+        swapImageView = findViewById(R.id.swapImageView);
         radioGroup = findViewById(R.id.radioGroup);
         winByTwoCheckbox = findViewById(R.id.winByTwoCheckbox);
         statusView = findViewById(R.id.statusView);
@@ -190,6 +188,7 @@ public class ConfigurationActivity extends AppCompatActivity {
         //TODO: In future versions, the app should retrieve the available themes through the BT socket
         ArrayList<String> themes = new ArrayList<>();
         themes.add("Dark");
+        themes.add("Glow");
         themes.add("Retro");
         themes.add("Traditional");
 
