@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private Button button;
     private boolean connecting = false;
     private boolean connected = false;
-    private boolean connectionLost = false;
     private ProgressBar loading;
     private ConnectThread connectThread;
     private static ConnectedThread connectedThread;
@@ -43,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String SCOREBOARD_HOSTNAME = "scoreboard"; 
     private final String DEBUG_HOSTNAME = "TAPSC4L7CS32";
+    private final String DEBUG_HOSTNAME2 = "TAPSCCXTG7H2";
 
     /**
      * Register the button when the app is opened
@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         //Get components from activity
         button = findViewById(R.id.button);
         loading = findViewById(R.id.loading);
+        loading.setVisibility(View.INVISIBLE);
         statusView = findViewById(R.id.statusView);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -66,11 +67,16 @@ public class MainActivity extends AppCompatActivity {
         initializeIntentFilter();
 
         Intent intent = getIntent();
-        connectionLost = intent.getBooleanExtra("connectionLost", false);
+        boolean connectionLost = intent.getBooleanExtra("connectionLost", false);
 
         //Begin bluetooth discovery
         if (!connectionLost) {
-            bluetoothAdapter.startDiscovery();
+            if (bluetoothAdapter.isDiscovering()) {
+                bluetoothAdapter.cancelDiscovery();
+            }
+                bluetoothAdapter.startDiscovery();
+            statusView.setText(getString(R.string.cant_start_bt_disc));
+            statusView.setTextColor(getResources().getColor(R.color.redFailure));
         } else {
             statusView.setText(R.string.disconnected);
             statusView.setTextColor(getResources().getColor(R.color.redFailure));
@@ -104,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Create a broadcast received to properly handle messages from the BluetoothAdapter
+     * Create a broadcast receiver to properly handle messages from the BluetoothAdapter
      */
     private final BroadcastReceiver broadcastReceiver =  new BroadcastReceiver() {
         @Override
@@ -125,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                     //Check if found device is a scoreboard
                     String name = device.getName();
                     Log.i("DEVICE FOUND: ", name != null ? name : "null");
-                    if (!connecting && name != null && (name.equals(SCOREBOARD_HOSTNAME) || name.equals(DEBUG_HOSTNAME))) {
+                    if (!connecting && name != null && (name.equals(SCOREBOARD_HOSTNAME) || name.equals(DEBUG_HOSTNAME) || name.equals(DEBUG_HOSTNAME2))) {
                         connecting = true;
                         connectThread = new ConnectThread(device);
                         connectThread.start();

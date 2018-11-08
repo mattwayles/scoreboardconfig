@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -36,6 +38,7 @@ public class ConfigurationActivity extends AppCompatActivity {
      * Register all the view objects you'll need
      */
     private TextView statusView;
+    private CheckBox winByTwoCheckbox;
     private Spinner themeSpinner;
     private Spinner matchTypeSpinner;
     private RadioGroup radioGroup;
@@ -43,8 +46,10 @@ public class ConfigurationActivity extends AppCompatActivity {
     private SharedPreferences sharedPrefs;
     private EditText teamName1EditText;
     private EditText teamName2EditText;
+    private Button updateMatch;
     private List<String> matchTypes = new ArrayList<>();
 
+    private boolean swap;
     private final int MAX_SCORE = 99;
 
     /**
@@ -69,7 +74,7 @@ public class ConfigurationActivity extends AppCompatActivity {
         addTextChangedListeners();
     }
 
-    public void startMatch(View view) {
+    public void configMatch(View view) {
 
         //Retrieve user input
         String team1Name = teamName1EditText.getText().toString();
@@ -77,6 +82,8 @@ public class ConfigurationActivity extends AppCompatActivity {
         String theme = themeSpinner.getSelectedItem().toString().toLowerCase();
         String matchType = matchTypeSpinner.getSelectedItem().toString();
         int numGames = matchType.equals("Single") ? 1 : Integer.parseInt(matchType.substring(matchType.length() - 1));
+        boolean winByTwo = winByTwoCheckbox.isChecked();
+        boolean newMatch = view.getTag().equals(R.string.new_match);
 
         //Initialize error handling
         statusView.setTextColor(Color.RED);
@@ -87,6 +94,8 @@ public class ConfigurationActivity extends AppCompatActivity {
 
         //Validate input
         if (inputIsValid(team1Name, team2Name, gameScores)) {
+            //Enable Update button
+            updateMatch.setVisibility(View.VISIBLE);
 
             //Retrieve scoreboard type
             String type = radioGroup.getCheckedRadioButtonId() == R.id.standardRadio ? "standard" : "switch";
@@ -103,10 +112,10 @@ public class ConfigurationActivity extends AppCompatActivity {
                     .putString("team1Name", team1Name)
                     .putString("team2Name", team2Name)
                     .putString("gameScores", gameScoreValueStr)
+                    .putBoolean("winByTwo", winByTwo)
                     .putInt("numGames", matchTypeSpinner.getSelectedItemPosition())
                     .putInt("themePos", themeSpinner.getSelectedItemPosition())
                     .apply();
-
 
             //Formulate JSON message to send to server
             String message = "{" +
@@ -115,8 +124,13 @@ public class ConfigurationActivity extends AppCompatActivity {
                     "numGames:" + numGames + ", " +
                     "gamesToWin:" + gamesToWin + ", " +
                     "gameScores:" + gameScoreValueStr + ", " +
+                    "winByTwo:" + winByTwo + ", " +
+                    "swap:" + swap + ", " +
+                    "new:" + newMatch + ", " +
                     "team1:" + team1Name + ", " +
                     "team2:" + team2Name + "}";
+
+            System.out.println(message);
 
             //Write data to connected Bluetooth device
             statusView.setText(R.string.sent);
@@ -131,6 +145,16 @@ public class ConfigurationActivity extends AppCompatActivity {
     }
 
     /**
+     * Swap team names when "Swap Teams" button is pressed
+     */
+    public void swapTeams(View view) {
+        String editText = teamName1EditText.getText().toString();
+        teamName1EditText.setText(teamName2EditText.getText());
+        teamName2EditText.setText(editText);
+        swap = !swap;
+    }
+
+    /**
      * Attach allocated Java objects to the activity View elements to retrieve & modify data
      */
     private void initializeViews() {
@@ -138,7 +162,9 @@ public class ConfigurationActivity extends AppCompatActivity {
                 Context.MODE_PRIVATE);
 
         setMatchTypes();
+        updateMatch = findViewById(R.id.updateMatch);
         radioGroup = findViewById(R.id.radioGroup);
+        winByTwoCheckbox = findViewById(R.id.winByTwoCheckbox);
         statusView = findViewById(R.id.statusView);
         themeSpinner = findViewById(R.id.themeSpinner);
         matchTypeSpinner = findViewById(R.id.matchTypeSpinner);
@@ -189,6 +215,7 @@ public class ConfigurationActivity extends AppCompatActivity {
         teamName2EditText.setText(sharedPrefs.getString("team2Name", ""));
         themeSpinner.setSelection(sharedPrefs.getInt("themePos", 2));
         matchTypeSpinner.setSelection(sharedPrefs.getInt("numGames", 0));
+        winByTwoCheckbox.setChecked(sharedPrefs.getBoolean("winByTwo", true));
 
         renderGameScoreEditViews(1);
     }
