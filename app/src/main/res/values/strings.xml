@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">AST Scoreboard</string>
-    <string name="version">v1.1_rc1</string>
+    <string name="version">v1.1</string>
 
     <string name="title">Scoreboard\nConfiguration</string>
     <string name="connect_to_scoreboard">Connect to Scoreboard</string>
