@@ -6,18 +6,12 @@
     <string name="title">Scoreboard\nConfiguration</string>
     <string name="connect_to_scoreboard">Connect to Scoreboard</string>
     <string name="scanning">Scanning for Scoreboard&#8230;</string>
-    <string name="select_device">Select Bluetooth Device</string>
-    <string name="no_devices_found">No Devices Found</string>
-    <string name="rescan">Rescan</string>
-    <string name="title_activity_bluetooth_finder">Bluetooth Scan</string>
-    <string name="title_activity_team_selection">TeamSelectionActivity</string>
     <string name="connected">Connected to Scoreboard</string>
     <string name="teamName">Team Name</string>
     <string name="vs">vs</string>
     <string name="disconnected">DISCONNECTED</string>
     <string name="new_game">New Game</string>
     <string name="new_match">New Match</string>
-    <string name="select_blueooth_device">Select Blueooth Device</string>
     <string name="select_scoreboard_type">Select Scoreboard Type</string>
     <string name="standard">Standard</string>
     <string name="switch_sides">Auto Switch Sides</string>
@@ -42,14 +36,9 @@
     <string name="set_theme">Set Scoreboard Theme</string>
     <string name="no_scoreboard_found">No Scoreboard Found</string>
     <string name="try_again">Try Again</string>
-    <string name="scan_again">Scan Again</string>
     <string name="connecting">Connecting&#8230;</string>
     <string name="go_to_config">Go To Configuration</string>
-    <string name="play_best_of">Play Best of</string>
     <string name="set_match_type">Set Match Type</string>
     <string name="cant_start_bt_disc">Can\'t Start Bluetooth Discovery</string>
     <string name="win_by_two">Win By Two</string>
-    <string name="updateCurrent">Update Match</string>
-    <string name="start_match">start_match</string>
-    <string name="update_match">update_match</string>
 </resources>
