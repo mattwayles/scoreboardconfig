@@ -137,8 +137,8 @@ public class ConfigurationActivity extends AppCompatActivity {
 
             //TODO: Return error message if connection fails?
 
-            MainActivity.writeToServer(message.length());
-            MainActivity.writeToServer(message);
+            BluetoothFinderActivity.writeToServer(message.length());
+            BluetoothFinderActivity.writeToServer(message);
         }
     }
 

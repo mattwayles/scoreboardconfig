@@ -4,3 +4,10 @@ v1.1 Release Notes
 - Added an in-app swap teams option
 - Added ability to create new match or update the existing match while preserving current match state
 - Minor bug fixes and terminology changes
+
+v1.11:
+- Added Sky Zone theme
+
+v1.2
+- TODO: BUG- Back button takes me to splash screen, and hangs there. Fix this
+- Loading spinner when scanning for scoreboards, go invisible if any are found, come back to visibility on Rescan

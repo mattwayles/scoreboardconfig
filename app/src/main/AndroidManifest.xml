@@ -24,6 +24,8 @@
             android:resource="@array/preloaded_fonts" />
         <activity android:name=".ConfigurationActivity"
             android:theme="@style/Light" />
+        <activity android:name=".BluetoothFinderActivity"
+            android:theme="@style/Light" />
     </application>
 
 </manifest>
