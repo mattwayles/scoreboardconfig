@@ -9,13 +9,12 @@ v1.11:
 - Added Sky Zone theme
 
 v1.2
-- Back button on ConfigurationActivity should disconnect, return to BluetoothFinder, and start a new scan
-- Back button on BluetoothFinder should return to the splash screen, but should initiate the timer to return to BluetoothFinder.
-- Loading spinner when scanning for scoreboards, go invisible if any are found, come back to visibility on Rescan
-- After selecting a scoreboard, change label to "Connecting" and show spinner again
-- On connect, send a packet to flash the backend screen (indicating the scoreboard you're connecting to)
-- After sending data to start a match, create new screen with team names and score up/down buttons.
+- Back button on ConfigurationActivity disconnect current connection, returns to BluetoothFinder, and starts a new scan
+- Back button on BluetoothFinder should returns to the splash screen and timer to return to BluetoothFinder.
+- Added a Loading spinner when scanning for scoreboards
+- TODO: After selecting a scoreboard, change label to "Connecting" and show spinner again
+- TODO: After sending data to start a match, create new screen with team names and score up/down buttons.
     - Have each press send a packet to modify the score.
     - Back button tacks you back to Configuration screen
 
-- Once backend timer is complete, create front-end configuration to send in timer values.
+- TODO: Once backend timer is complete, create front-end configuration to send in timer values.

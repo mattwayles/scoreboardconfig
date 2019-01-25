@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,12 +42,19 @@ public class BluetoothFinderActivity extends AppCompatActivity {
     private Button scanButton;
     private TextView statusView;
     private ListView deviceView;
+    private ProgressBar progressBar;
     private ArrayList<String> deviceDisplayList;
     private ArrayList<BluetoothDevice> deviceList;
     private ArrayAdapter<String> adapter;
     private ConnectThread connectThread;
     private BluetoothAdapter bluetoothAdapter;
-    private List<String> scoreboards = new ArrayList<String>() {{add("scoreboard"); add("scoreboard1"); add("DESKTOP-TORE5J3");}};
+    private boolean connecting = false;
+    private List<String> scoreboards = new ArrayList<String>() {{
+        add("scoreboard");
+        add("scoreboard1");
+        add("DESKTOP-TORE5J3");
+        add("TAPSCCXTG7H2");
+    }};
 
     static ConnectedThread connectedThread;
 
@@ -84,6 +92,7 @@ public class BluetoothFinderActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
         scanButton.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         statusView.setText(R.string.scanning);
 
         bluetoothAdapter.startDiscovery();
@@ -98,6 +107,7 @@ public class BluetoothFinderActivity extends AppCompatActivity {
         scanButton = findViewById(R.id.scanButton);
         statusView = findViewById(R.id.statusView);
         deviceView = findViewById(R.id.deviceView);
+        progressBar = findViewById(R.id.progressBar);
         adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, deviceDisplayList) {
 
             //Modify the ListView item text color
@@ -131,6 +141,8 @@ public class BluetoothFinderActivity extends AppCompatActivity {
         deviceView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                connecting = true;
+                statusView.setText(R.string.connecting);
                 BluetoothDevice device = deviceList.get(position);
                 connectThread = new ConnectThread(device);
                 connectThread.start();
@@ -165,13 +177,16 @@ public class BluetoothFinderActivity extends AppCompatActivity {
             switch (action) {
                 case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:
                     //When discovery has finished, enabled the rescan button and change the TextView
-                    scanButton.setVisibility(View.VISIBLE);
-                    scanButton.setEnabled(true);
-                    if (deviceDisplayList.size() == 0) {
-                        statusView.setText(R.string.no_devices_found);
-                    } else {
-                        statusView.setText(R.string.select_device);
+                    if (!connecting) {
+                        if (deviceDisplayList.size() == 0) {
+                            statusView.setText(R.string.no_devices_found);
+                        } else {
+                            statusView.setText(R.string.select_device);
+                        }
                     }
+                    scanButton.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    scanButton.setEnabled(true);
 
                     break;
                 case BluetoothDevice.ACTION_FOUND:
@@ -215,6 +230,7 @@ public class BluetoothFinderActivity extends AppCompatActivity {
         connectedThread = new ConnectedThread(socket);
         connectedThread.start();
 
+        connecting = false;
         Intent intent = new Intent(getApplicationContext(), ConfigurationActivity.class);
         startActivity(intent);
     }
@@ -241,6 +257,13 @@ public class BluetoothFinderActivity extends AppCompatActivity {
      */
     public static void closeSocket() {
         connectedThread.cancel();
+    }
+
+    @Override
+    public void onBackPressed() {
+        bluetoothAdapter.cancelDiscovery();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 
 

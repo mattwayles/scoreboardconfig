@@ -415,4 +415,9 @@ public class ConfigurationActivity extends AppCompatActivity {
             }
         };
     }
+
+    @Override
+    public void onBackPressed() {
+        BluetoothFinderActivity.closeSocket();
+    }
 }
