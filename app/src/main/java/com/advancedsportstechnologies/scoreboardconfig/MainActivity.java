@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private static final UUID SCOREBOARD_UUID = UUID.fromString("04c6093b-0000-1000-8000-00805f9b34fb");
 
     private final String SCOREBOARD_HOSTNAME = "scoreboard"; 
-    private final String DEBUG_HOSTNAME = "TAPSC4L7CS32";
+        private final String DEBUG_HOSTNAME = "TAPSC3X9FN32";
     private final String DEBUG_HOSTNAME2 = "TAPSCCXTG7H2";
 
     /**

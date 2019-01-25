@@ -80,7 +80,7 @@ public class ConfigurationActivity extends AppCompatActivity {
         //Retrieve user input
         String team1Name = teamName1EditText.getText().toString();
         String team2Name = teamName2EditText.getText().toString();
-        String theme = themeSpinner.getSelectedItem().toString().toLowerCase();
+        String theme = themeSpinner.getSelectedItem().toString().toLowerCase().replaceAll("\\s","");
         String matchType = matchTypeSpinner.getSelectedItem().toString();
         int numGames = matchType.equals("Single") ? 1 : Integer.parseInt(matchType.substring(matchType.length() - 1));
         boolean winByTwo = winByTwoCheckbox.isChecked();
@@ -190,6 +190,7 @@ public class ConfigurationActivity extends AppCompatActivity {
         themes.add("Dark");
         themes.add("Glow");
         themes.add("Retro");
+        themes.add("Sky Zone");
         themes.add("Traditional");
 
         return themes;
@@ -268,11 +269,7 @@ public class ConfigurationActivity extends AppCompatActivity {
     private String parseGameScores(int[] gameScores) {
         StringBuilder gameScoreBuilder = new StringBuilder();
         for (int i = 0; i < gameScores.length; i++) {
-            if (i != gameScores.length - 1) {
-                gameScoreBuilder.append(gameScores[i]).append("-");
-            } else {
-                gameScoreBuilder.append(gameScores[i]);
-            }
+            gameScoreBuilder.append(gameScores[i]).append("-");
         }
         return gameScoreBuilder.toString();
     }
