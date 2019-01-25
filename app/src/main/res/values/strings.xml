@@ -1,13 +1,13 @@
 <resources>
 
     <string name="app_name">AST Scoreboard</string>
-    <string name="version">v1.11</string>
+    <string name="version">v1.2_DEV</string>
 
     <string name="title">Scoreboard\nConfiguration</string>
     <string name="connect_to_scoreboard">Connect to Scoreboard</string>
     <string name="scanning">Scanning for Scoreboard&#8230;</string>
-    <string name="select_device">Select Bluetooth Device</string>
-    <string name="no_devices_found">No Devices Found</string>
+    <string name="select_device">Select Scoreboard</string>
+    <string name="no_devices_found">No Scoreboards Found</string>
     <string name="rescan">Rescan</string>
     <string name="title_activity_bluetooth_finder">Bluetooth Scan</string>
     <string name="title_activity_team_selection">TeamSelectionActivity</string>
