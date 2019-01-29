@@ -31,7 +31,8 @@
         <activity
             android:name=".BluetoothFinderActivity"
             android:theme="@style/Light" />
-        <activity android:name=".ControlActivity" />
+        <activity android:name=".ControlActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

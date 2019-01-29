@@ -21,6 +21,7 @@ public class ControlActivity extends AppCompatActivity {
     private int team1Score = 0;
     private int team2Score = 0;
     private int currentGame = 0;
+    private int currentGameScore;
     private int gamesToWin;
     private String gameScores;
     private boolean winByTwo;
@@ -43,7 +44,7 @@ public class ControlActivity extends AppCompatActivity {
         winByTwo = getIntent().getBooleanExtra("winByTwo", false);
         gameScores = getIntent().getStringExtra("gameScores");
         gamesToWin = getIntent().getIntExtra("gamesToWin", 1);
-
+        currentGameScore = Integer.parseInt(gameScores.split("-")[0]);
         vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
     }
@@ -87,8 +88,10 @@ public class ControlActivity extends AppCompatActivity {
     }
 
     public void teamOnePlus(View view) {
-        team1Score++;
-        sendMessage("increase", teamOneName);
+        if (team1Score < currentGameScore) {
+            team1Score++;
+            sendMessage("increase", teamOneName);
+        }
     }
 
     public void teamOneMinus(View view) {
@@ -97,8 +100,10 @@ public class ControlActivity extends AppCompatActivity {
     }
 
     public void teamTwoPlus(View view) {
-        team2Score++;
-        sendMessage("increase", teamTwoName);
+        if (team2Score < currentGameScore) {
+            team2Score++;
+            sendMessage("increase", teamTwoName);
+        }
     }
 
     public void teamTwoMinus(View view) {
@@ -125,36 +130,40 @@ public class ControlActivity extends AppCompatActivity {
     }
 
     private void checkScores() {
-        int currentGameScore = Integer.parseInt(gameScores.split("-")[currentGame]);
+        try {
+            currentGameScore = Integer.parseInt(gameScores.split("-")[currentGame]);
 
-        if (winByTwo) {
-            if ((team1Score >= currentGameScore && team1Score > team2Score + 1) ||
-                    team2Score >= currentGameScore && team2Score > team1Score + 1) {
-                if (team1Score >= currentGameScore && team1Score > team2Score + 1) {
-                    team1GamesWon++;
-                } else {
-                    team2GamesWon++;
+            if (winByTwo) {
+                if ((team1Score >= currentGameScore && team1Score > team2Score + 1) ||
+                        team2Score >= currentGameScore && team2Score > team1Score + 1) {
+                    if (team1Score >= currentGameScore && team1Score > team2Score + 1) {
+                        team1GamesWon++;
+                    } else {
+                        team2GamesWon++;
+                    }
+                    currentGame += 1;
+                    team1Score = 0;
+                    team2Score = 0;
+                    if (team1GamesWon < gamesToWin && team2GamesWon < gamesToWin) {
+                        swap();
+                    }
                 }
-                currentGame += 1;
-                team1Score = 0;
-                team2Score = 0;
-                if (team1GamesWon < gamesToWin && team2GamesWon < gamesToWin) {
-                    swap();
+            } else {
+                if (team1Score == currentGameScore || team2Score == currentGameScore) {
+                    if (team1Score == currentGameScore) {
+                        team1GamesWon++;
+                    } else
+                        team2GamesWon++;
+                    currentGame += 1;
+                    team1Score = 0;
+                    team2Score = 0;
+                    if (team1GamesWon < gamesToWin && team2GamesWon < gamesToWin) {
+                        swap();
+                    }
                 }
             }
-        } else {
-            if (team1Score == currentGameScore || team2Score == currentGameScore) {
-                if (team1Score == currentGameScore) {
-                    team1GamesWon++;
-                } else
-                    team2GamesWon++;
-                currentGame += 1;
-                team1Score = 0;
-                team2Score = 0;
-                if (team1GamesWon < gamesToWin && team2GamesWon < gamesToWin) {
-                    swap();
-                }
-            }
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
         }
     }
 }
