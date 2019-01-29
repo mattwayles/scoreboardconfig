@@ -77,6 +77,10 @@ public class ControlActivity extends AppCompatActivity {
         team1GamesWon = team2GamesWon;
         team2GamesWon = tempWon;
 
+        int tempScore = team1Score;
+        team1Score = team2Score;
+        team2Score = tempScore;
+
         teamOneNameLabel.setText(teamOneName);
         teamTwoNameLabel.setText(teamTwoName);
         vibe.vibrate(40);
