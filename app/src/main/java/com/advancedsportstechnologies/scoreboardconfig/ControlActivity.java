@@ -88,10 +88,8 @@ public class ControlActivity extends AppCompatActivity {
     }
 
     public void teamOnePlus(View view) {
-        if (team1Score < currentGameScore) {
-            team1Score++;
-            sendMessage("increase", teamOneName);
-        }
+        team1Score++;
+        sendMessage("increase", teamOneName);
     }
 
     public void teamOneMinus(View view) {
@@ -100,10 +98,8 @@ public class ControlActivity extends AppCompatActivity {
     }
 
     public void teamTwoPlus(View view) {
-        if (team2Score < currentGameScore) {
-            team2Score++;
-            sendMessage("increase", teamTwoName);
-        }
+        team2Score++;
+        sendMessage("increase", teamTwoName);
     }
 
     public void teamTwoMinus(View view) {
