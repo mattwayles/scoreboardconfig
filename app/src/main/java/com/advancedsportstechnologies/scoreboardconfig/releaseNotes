@@ -12,9 +12,8 @@ v1.2
 - Back button on ConfigurationActivity disconnect current connection, returns to BluetoothFinder, and starts a new scan
 - Back button on BluetoothFinder should returns to the splash screen and timer to return to BluetoothFinder.
 - Added a Loading spinner when scanning for scoreboards
+- Controller activity added to control team scores directly from app
+- TODO: Must account for team reversal - App needs some logic, I'm afraid...
 - TODO: After selecting a scoreboard, change label to "Connecting" and show spinner again
-- TODO: After sending data to start a match, create new screen with team names and score up/down buttons.
-    - Have each press send a packet to modify the score.
-    - Back button tacks you back to Configuration screen
 
 - TODO: Once backend timer is complete, create front-end configuration to send in timer values.

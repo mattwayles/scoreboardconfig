@@ -1,6 +1,7 @@
 package com.advancedsportstechnologies.scoreboardconfig;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -106,6 +107,10 @@ public class ConfigurationActivity extends AppCompatActivity {
             //Set Games to Win Value
             int gamesToWin = numGames == 1 ? 1 : numGames / 2 + 1;
 
+            //Get team colors
+            String team1Color = getTeamColor(theme, 1);
+            String team2Color = getTeamColor(theme, 2);
+
             //Add user input to Shared Preferences for retrieval on next run
             sharedPrefs.edit()
                     .putString("type", type)
@@ -125,8 +130,8 @@ public class ConfigurationActivity extends AppCompatActivity {
                     "gamesToWin:" + gamesToWin + ", " +
                     "gameScores:" + gameScoreValueStr + ", " +
                     "winByTwo:" + winByTwo + ", " +
-                    "team1:" + team1Name + ", " +
-                    "team2:" + team2Name + "}";
+                    "team1:" + "{name:" + team1Name + ", color:'" + team1Color + "'}, " +
+                    "team2:" + "{name:" + team2Name + ", color:'" + team2Color + "'}}";
 
             System.out.println(message);
 
@@ -139,6 +144,17 @@ public class ConfigurationActivity extends AppCompatActivity {
 
             BluetoothFinderActivity.writeToServer(message.length());
             BluetoothFinderActivity.writeToServer(message);
+
+            Intent intent = new Intent(getApplicationContext(), ControlActivity.class);
+            intent.putExtra("teamOneName", team1Name);
+            intent.putExtra("teamTwoName", team2Name);
+
+            //TODO: Use these values to auto-swap
+            intent.putExtra("gamesToWin", gamesToWin);
+            intent.putExtra("type", type);
+            intent.putExtra("gameScores", gameScoreValueStr);
+            intent.putExtra("winByTwo", winByTwo);
+            startActivity(intent);
         }
     }
 
@@ -208,6 +224,26 @@ public class ConfigurationActivity extends AppCompatActivity {
     }
 
     /**
+     * Set team colors based off of theme
+     */
+    private String getTeamColor(String theme, int team) {
+        switch (theme) {
+            case "dark":
+                return team == 1 ? "#FDFFBC" : "#F9CCFF";
+            case "retro":
+                return team == 1 ? "#0800ad" : "#a05500";
+            case "traditional":
+                return "#FFFFFF";
+            case "glow":
+                return team == 1 ? "#FFCC00" : "#ff78bb";
+            case "skyzone":
+                return team == 1 ? "#002B6C" : "#000000";
+            default:
+                return "#000";
+        }
+    }
+
+    /**
      * If app has been used before, retrieve the values used last time
      */
     private void setInitialValues() {
@@ -268,8 +304,8 @@ public class ConfigurationActivity extends AppCompatActivity {
      */
     private String parseGameScores(int[] gameScores) {
         StringBuilder gameScoreBuilder = new StringBuilder();
-        for (int i = 0; i < gameScores.length; i++) {
-            gameScoreBuilder.append(gameScores[i]).append("-");
+        for (int gameScore : gameScores) {
+            gameScoreBuilder.append(gameScore).append("-");
         }
         return gameScoreBuilder.toString();
     }

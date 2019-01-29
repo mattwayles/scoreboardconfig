@@ -143,6 +143,7 @@ public class BluetoothFinderActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 connecting = true;
                 statusView.setText(R.string.connecting);
+                progressBar.setVisibility(View.VISIBLE);
                 BluetoothDevice device = deviceList.get(position);
                 connectThread = new ConnectThread(device);
                 connectThread.start();

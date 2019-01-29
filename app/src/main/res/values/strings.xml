@@ -20,7 +20,7 @@
     <string name="select_blueooth_device">Select Blueooth Device</string>
     <string name="select_scoreboard_type">Select Scoreboard Type</string>
     <string name="standard">Standard</string>
-    <string name="switch_sides">Auto Switch Sides</string>
+    <string name="switch_sides">Switch Sides</string>
     <string name="select_team_names">Select Team Names</string>
     <string name="select_game_num">Select Number of Games</string>
     <string name="select_game_scores">Set Game Win Scores</string>
@@ -52,4 +52,13 @@
     <string name="updateCurrent">Update Match</string>
     <string name="start_match">start_match</string>
     <string name="update_match">update_match</string>
+    <string name="home">HOME</string>
+    <string name="away">AWAY</string>
+    <string name="reset">RESET</string>
+    <string name="configure">Configure</string>
+    <string name="team_1_plus">Team 1 +</string>
+    <string name="team_2_plus">Team 2 Plus</string>
+    <string name="team1minus">Team1Minus</string>
+    <string name="team2Minus">Team2Minus</string>
+    <string name="swap">Swap</string>
 </resources>
