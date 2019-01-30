@@ -9,9 +9,11 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,6 +23,34 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/configureButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@color/bluePrimary"
+                    android:onClick="configure"
+                    android:text="@string/configure"
+                    android:textColor="@android:color/background_light"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/resetButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginRight="32dp"
+                    android:background="@color/bluePrimary"
+                    android:onClick="reset"
+                    android:text="@string/reset"
+                    android:textColor="@android:color/background_light"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/teamOneNameLabel"
@@ -44,44 +74,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/configureButton" />
 
                 <ImageView
-                    android:id="@+id/teamTwoPlusImg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="45dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginRight="32dp"
-                    android:contentDescription="@string/team_2_plus"
-                    android:onClick="teamTwoPlus"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/teamTwoNameLabel"
-                    app:srcCompat="@drawable/plus" />
-
-                <Button
-                    android:id="@+id/resetButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginRight="32dp"
-                    android:background="@color/bluePrimary"
-                    android:onClick="reset"
-                    android:text="@string/reset"
-                    android:textColor="@android:color/background_light"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/divider"
-                    android:layout_width="8dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:attr/listDivider"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView3" />
-
-                <ImageView
                     android:id="@+id/teamOnePlusImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -93,6 +85,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/teamOneNameLabel"
                     app:srcCompat="@drawable/plus" />
+
+                <ImageView
+                    android:id="@+id/teamOneMinusImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginTop="88dp"
+                    android:layout_marginBottom="200dp"
+                    android:contentDescription="@string/team1minus"
+                    android:onClick="teamOneMinus"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/teamOnePlusImg"
+                    app:srcCompat="@drawable/minus" />
 
                 <ImageView
                     android:id="@+id/imageView3"
@@ -109,6 +116,17 @@
                     app:layout_constraintStart_toEndOf="@+id/teamOneNameLabel"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/swapside" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="8dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
                 <TextView
                     android:id="@+id/teamTwoNameLabel"
@@ -132,44 +150,33 @@
                     app:layout_constraintTop_toBottomOf="@+id/resetButton" />
 
                 <ImageView
+                    android:id="@+id/teamTwoPlusImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginRight="32dp"
+                    android:contentDescription="@string/team_2_plus"
+                    android:onClick="teamTwoPlus"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/teamTwoNameLabel"
+                    app:srcCompat="@drawable/plus" />
+
+                <ImageView
                     android:id="@+id/teamTwoMinusImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="88dp"
                     android:layout_marginEnd="32dp"
                     android:layout_marginRight="32dp"
+                    android:layout_marginBottom="200dp"
                     android:contentDescription="@string/team2Minus"
                     android:onClick="teamTwoMinus"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:screenOrientation="portrait" app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/teamTwoPlusImg"
                     app:srcCompat="@drawable/minus" />
 
-                <Button
-                    android:id="@+id/configureButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginTop="24dp"
-                    android:background="@color/bluePrimary"
-                    android:onClick="configure"
-                    android:text="@string/configure"
-                    android:textColor="@android:color/background_light"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/teamOneMinusImg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginTop="88dp"
-                    android:contentDescription="@string/team1minus"
-                    android:onClick="teamOneMinus"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/teamOnePlusImg"
-                    app:srcCompat="@drawable/minus" />
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
