@@ -13,7 +13,8 @@ v1.2
 - Back button on BluetoothFinder should returns to the splash screen and timer to return to BluetoothFinder.
 - Added a Loading spinner when scanning for scoreboards
 - Controller activity added to control team scores directly from app
-- TODO: Must account for team reversal - App needs some logic, I'm afraid...
-- TODO: After selecting a scoreboard, change label to "Connecting" and show spinner again
+- Team reversal functionality included
 
+v1.3:
+- TODO: Show spinner while Connecting
 - TODO: Once backend timer is complete, create front-end configuration to send in timer values.
