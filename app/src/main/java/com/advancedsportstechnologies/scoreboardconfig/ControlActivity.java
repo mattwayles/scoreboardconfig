@@ -93,7 +93,9 @@ public class ControlActivity extends AppCompatActivity {
     }
 
     public void teamOneMinus(View view) {
-        team1Score--;
+        if (team1Score > 0) {
+            team1Score--;
+        }
         sendMessage("decrease", teamOneName);
     }
 
@@ -103,7 +105,9 @@ public class ControlActivity extends AppCompatActivity {
     }
 
     public void teamTwoMinus(View view) {
-        team2Score--;
+        if (team2Score > 0) {
+            team2Score--;
+        }
         sendMessage("decrease", teamTwoName);
     }
 
